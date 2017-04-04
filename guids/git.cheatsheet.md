@@ -7,10 +7,10 @@
 > git branch branchName<br />
 git checkout branchName
 
-## 현재 브런치와 기존 브런치 머지
+## 명시한 브런치와 현재브런치를 머지
 > git merge mergeBranchName
 
-머지할 브런치를 현재브런치와 합쳐준다
+현재 브런치를 명시한 브런치와 머지
 
 ## remote push
 > git push -u origin branchName
