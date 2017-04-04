@@ -1,0 +1,14 @@
+{
+    "env": {
+        "port": 80,
+        "path": "/home/study02/sh"
+    },
+    "db": {
+        "mongo": "mongodb://localhost/blog"
+    },
+    "session": {
+        "secret": "foo",
+        "maxAge": 3600,
+        "millisecond": 1000
+    }
+}
