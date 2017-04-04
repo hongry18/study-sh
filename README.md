@@ -7,7 +7,7 @@ git clone -b default url projectName
 
 ## Quick Start
 
-### require dependency
+### require dependency (global & local)
 > npm install -g webpack webpack-dev-server babel-cli nodemon cross-env
 
 ### set Configure
@@ -37,3 +37,7 @@ git clone -b default url projectName
  * secret
  * maxAge - 세션 유지 시간 (초)
  * millisecond - 밀리세컨드 ( 세션 유지 시간에 곱해줄때 사용 )
+
+### start npm
+> npm install<br />
+npm run build && npm start
