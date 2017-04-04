@@ -41,13 +41,13 @@
 ```
 
 * env
- * port - build 할 포트 로 변경
- * path - 프로젝트 경로 변경
+  * port - build 할 포트 로 변경
+  * path - 프로젝트 경로 변경
 * db.mongo - 몽고디비 주소
 * session
- * secret
- * maxAge - 세션 유지 시간 (초)
- * millisecond - 밀리세컨드 ( 세션 유지 시간에 곱해줄때 사용 )
+  * secret
+  * maxAge - 세션 유지 시간 (초)
+  * millisecond - 밀리세컨드 ( 세션 유지 시간에 곱해줄때 사용 )
 
 ### start npm
 > npm run build && npm start
