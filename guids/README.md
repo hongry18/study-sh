@@ -1,5 +1,6 @@
-* babel-plugin-root-import.md
-* express-session-mongodb-store.md
-* git.cheatsheet.md
-* react-addons-perf.md
-* webpack-image-loader.md 
+* [바벨 컴파일시 루트디렉토리 지정 플러그인](/study-sh/blob/hongry/guids/babel-plugin-root-import.md)
+* [express에서 mongoDB로 세션 사용](/study-sh/blob/hongry/guids/express-session-mongodb-store.md)
+* [간단한 git 사용법](/study-sh/blob/hongry/guids/git.cheatsheet.md)
+* [react perfomance 설치](/study-sh/blob/hongry/guids/react-addons-perf.md)
+* [webpack image loader](/study-sh/blob/hongry/guids/webpack-image-loader.md)
+* [markdown Syntax](/study-sh/blob/hongry/guids/markdown.md)
