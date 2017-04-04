@@ -3,7 +3,7 @@
 서현 NodeJS, Express, ReactJS
 
 ## git clone
-git clone -b default url projectName
+git clone -b init https://github.com/hongry18/study-sh.git projectName
 
 ## Quick Start
 
