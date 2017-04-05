@@ -8,6 +8,11 @@ import bodyParser from 'body-parser'; // PARSE HTML BODY
 import mongoose from 'mongoose';
 import session from 'express-session';
 const MongoStore = require('connect-mongo')(session);
+import redis from 'redis';
+import RedisStore from 'connect-redis';
+
+const redisStore = new RedisStore(session);
+const client = redis.createClient();
 
 // import api from '~/routes';
 
@@ -23,6 +28,8 @@ db.once('open', () => { console.log('Connected to mongodb server'); });
 mongoose.connect( config.get('db.mongo') );
 
 /* use session */
+/* use session with mongodb store */
+/*
 app.use(session({
     secret: config.get('session.secret'),
     resave: false,
@@ -35,6 +42,23 @@ app.use(session({
         ttl: config.get('session.maxAge')
     })
 }));
+*/
+
+/* use session with redis store */
+app.use(session(
+    {
+        secret: 'foo',
+        store: new redisStore({
+            host: "127.0.0.1",
+            port: 6379,
+            client: client,
+            prefix : "session:",
+            db : 0
+        }),
+        saveUninitialized: false, // don't create session until something stored,
+        resave: true // don't save session if unmodified
+    }
+));
 
 app.use( '/', express.static( path.join(config.get('env.path'), '/public')) );
 
