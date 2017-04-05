@@ -182,16 +182,7 @@ Inline `code`
 Inline `code`
 
 Syntax highlighting
-
-```
-   ``` js
-   var foo = function (bar) {
-    return bar++;
-   };
-
-   console.log(foo(5));
-   ```
-```
+하이라이팅은 ``` code ``` 로 감싸주면 됨
 
 ``` js
 var foo = function (bar) {
