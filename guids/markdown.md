@@ -24,21 +24,21 @@ You will like those projects!
 
 ---
 
+```
 # h1 Heading 8-)
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
 ##### h5 Heading
 ###### h6 Heading
+```
 
-```
 # h1 Heading 8-)
 ## h2 Heading
 ### h3 Heading
 #### h4 Heading
 ##### h5 Heading
 ###### h6 Heading
-```
 
 
 ## Horizontal Rules
@@ -181,46 +181,16 @@ Inline `code`
 
 Inline `code`
 
-Indented code
-
-```
-    // Some comments
-    line 1 of code
-    line 2 of code
-    line 3 of code
-```
-
-    // Some comments
-    line 1 of code
-    line 2 of code
-    line 3 of code
-
-
-```
-Block code "fences"
-```
-Block code "fences"
-
-```
-\```
-Sample text here...
-\```
-```
-
-```
-Sample text here...
-```
-
 Syntax highlighting
 
 ```
-\``` js
-var foo = function (bar) {
-  return bar++;
-};
+ ``` js
+ var foo = function (bar) {
+   return bar++;
+ };
 
-console.log(foo(5));
-\```
+ console.log(foo(5));
+ ```
 ```
 
 ``` js
