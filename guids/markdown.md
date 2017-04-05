@@ -56,32 +56,6 @@ ___
 
 ***
 
-
-## Typographic replacements
-
-```
-Enable typographer option to see result.
-
-(c) (C) (r) (R) (tm) (TM) (p) (P) +-
-
-test.. test... test..... test?..... test!....
-
-!!!!!! ???? ,,  -- ---
-
-"Smartypants, double quotes" and 'single quotes'
-```
-
-Enable typographer option to see result.
-
-(c) (C) (r) (R) (tm) (TM) (p) (P) +-
-
-test.. test... test..... test?..... test!....
-
-!!!!!! ???? ,,  -- ---
-
-"Smartypants, double quotes" and 'single quotes'
-
-
 ## Emphasis
 
 ```
@@ -182,7 +156,7 @@ Inline `code`
 Inline `code`
 
 Syntax highlighting
-하이라이팅은 ``` code ``` 로 감싸주면 됨
+하이라이팅은 \``` code \``` 로 감싸주면 됨
 
 ``` js
 var foo = function (bar) {
