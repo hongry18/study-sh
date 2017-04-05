@@ -184,13 +184,14 @@ Inline `code`
 Syntax highlighting
 
 ```
-``` js
- var foo = function (bar) {
-   return bar++;
- };
+   ``` js
+   var foo = function (bar) {
+    return bar++;
+   };
 
- console.log(foo(5));
-``````
+   console.log(foo(5));
+   ```
+```
 
 ``` js
 var foo = function (bar) {
