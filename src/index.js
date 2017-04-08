@@ -1,29 +1,30 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Perf from 'react-addons-perf';
-
+ 
 // Router
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-
-// import containers
-import { App, Home } from './containers';
-
+import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+ 
+// Container Components
+import { App, Home, Login, Register } from 'containers';
+ 
 // Redux
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
-import reduces from 'reduces';
+import reducers from 'reducers';
 import thunk from 'redux-thunk';
-
-const store = createStore( reduces, applyMiddleware(thunk) );
-
-const el = document.getElementById('root');
-
+ 
+const store = createStore(reducers, applyMiddleware(thunk));
+ 
+const rootElement = document.getElementById('root');
 ReactDOM.render(
-    <Provider store={store} >
-        <Router history={browserHistory} >
-            <Route path='/' component={App} >
-                <IndexRoute component={Home} />
+    <Provider store={store}>
+        <Router history={browserHistory}>
+            <Route path="/" component={App}>
+                <IndexRoute component={Home}/>
+                <Route path="home" component={Home}/>
+                <Route path="login" component={Login}/>
+                <Route path="register" component={Register}/>
             </Route>
         </Router>
-    </Provider>, el
+    </Provider>, rootElement
 );

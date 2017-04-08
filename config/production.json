@@ -1,7 +1,7 @@
 {
     "env": {
-        "port": 80,
-        "path": "/home/study02/sh"
+        "port": 4444,
+        "path": "/Users/yujaemin/project/study/blog"
     },
     "db": {
         "mongo": "mongodb://localhost/blog"

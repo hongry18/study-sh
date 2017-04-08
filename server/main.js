@@ -7,6 +7,9 @@ import bodyParser from 'body-parser'; // PARSE HTML BODY
 
 import mongoose from 'mongoose';
 import session from 'express-session';
+
+import api from '~/routes';
+
 const MongoStore = require('connect-mongo')(session);
 
 // import api from '~/routes';
@@ -39,7 +42,7 @@ app.use(session({
 app.use( '/', express.static( path.join(config.get('env.path'), '/public')) );
 
 /* setup routers & static directory */
-// app.use( '/api', api );
+app.use( '/api', api );
 
 app.get('*', (req, res) => {
     res.sendFile( path.join(config.get('env.path'), '/public/index.html') );
