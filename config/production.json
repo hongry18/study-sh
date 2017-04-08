@@ -1,6 +1,6 @@
 {
     "env": {
-        "port": 80,
+        "port": 8080,
         "path": "/Users/kidkkr/mean-study/kidkkr-blog"
     },
     "db": {
@@ -8,7 +8,10 @@
     },
     "session": {
         "secret": "foo",
-        "maxAge": 3600,
-        "millisecond": 1000
+        "cookie": {
+            "maxAge": 3600000
+        },
+        "resave": false,
+        "saveUninitialized": true
     }
 }

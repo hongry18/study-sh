@@ -18,19 +18,26 @@ app.use(session( config.get('session') ));
 // morgan??
 
 // mongoDB
-//const db = mongoose.connection;
+const db = mongoose.connection;
+db.on('error', console.error);
+db.once('open', () => {
+    console.log('Connected to Mongod server');
+});
+
+mongoose.connect(config.get('db.mongo'));
 
 // routers
 app.use('/api', api);
 
 // static page
 //app.use('/', express.static(path.join(config.get('env.path', 'public/'))));
+
 app.use('/', (req, res) => {
     let sess = req.session;
     let result;
-    if (sess.userid) {
-        result = `Hello ${sess.userid}`;
-    } else {
+    if (sess.auth) { // if logged in
+        result = `Hello ${sess.username}`;
+    } else { // not logged in
         result = 'Please Login';
     }
     res.send(result);

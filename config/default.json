@@ -7,7 +7,6 @@
         "mongo": "mongodb://localhost/blog"
     },
     "session": {
-        "key": "kidkkr-blog",
         "secret": "foo",
         "cookie": {
             "maxAge": 3600000

@@ -3,19 +3,21 @@ import express from 'express';
 const router = express.Router();
 
 router.get('/:username/:userpw', (req, res) => {
+    console.log(req.baseUrl);
     let sess = req.session;
-    let username = req.params.username;
-    let userpw = req.params.userpw;
+    let username_ = req.params.username;
+    let userpw_ = req.params.userpw;
     let result = {}
-    if (username == 'kkr' && userpw == 'groogang') {
+    if (username_ == 'kkr' && userpw_ == 'groogang') {
         result['success'] = 1;
-        sess.username = username; 
-        res.json(result);
+        sess.username = username_; 
+        sess.auth = true;
+        res.send('login succeed');
     }else {
         result['success'] = 0;
-        res.json(result);
+        res.send('login failed');
     }
-    return;
+    console.log(result);
 });
 
 export default router;
