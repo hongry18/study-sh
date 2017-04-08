@@ -11,6 +11,8 @@
         "secret": "foo",
         "cookie": {
             "maxAge": 3600000
-        }
+        },
+        "resave": false,
+        "saveUninitialized": true
     }
 }
