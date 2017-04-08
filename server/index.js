@@ -28,7 +28,7 @@ app.use('/login/:id/:pw', (req, res) => {
     let result = {}
     if (id == 'kkr' && pw == 'groogang') {
         result['success'] = 1;
-        sess.id = id;
+        sess.id = id; /// 이부분 에러
         sess.pw = pw;
         res.json(result);
         return;
