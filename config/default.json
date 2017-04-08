@@ -1,14 +1,16 @@
 {
     "env": {
-        "port": 80,
-        "path": "/home/study02/sh"
+        "port": 8080,
+        "path": "/Users/kidkkr/mean-study/kidkkr-blog"
     },
     "db": {
         "mongo": "mongodb://localhost/blog"
     },
     "session": {
+        "key": "kidkkr-blog",
         "secret": "foo",
-        "maxAge": 3600,
-        "millisecond": 1000
+        "cookie": {
+            "maxAge": 3600000
+        }
     }
 }
