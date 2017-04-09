@@ -12,10 +12,11 @@ const app = express();
 
 // middlewares
 app.use(bodyParser.json());
-// session
-app.use(session( config.get('session') ));
 
-// morgan??
+// session
+app.use(session(config.get('session')));
+
+// morgan
 
 // mongoDB
 const db = mongoose.connection;

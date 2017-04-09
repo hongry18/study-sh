@@ -11,4 +11,8 @@ userSchema.methods.generateHash = function(pw) {
     return bcryptjs.hashSync(pw, 8);
 };
 
+userSchema.methods.validateHash = function(pw) {
+    return bcryptjs.compareSync(pw, this.userpw);
+}
+
 export default userSchema;
