@@ -1,11 +1,8 @@
 import express from 'express';
 
-import login from './login';
-import logout from './logout';
+import account from '~/routers/account';
 
 const router = express.Router();
-
-router.use('/login', login);
-router.use('/logout', logout);
+router.use('/users', account);
 
 export default router;

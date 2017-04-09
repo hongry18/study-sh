@@ -1,9 +1,9 @@
-import Post from '~/model/Post';
-import User from '~/model/User';
+import Post from '~/models/Post';
+import User from '~/models/User';
 
-const model = {
-    "post": Post,
-    "user": User
+const models = {
+    "Post": Post,
+    "User": User
 };
 
-export default model;
+export default models;

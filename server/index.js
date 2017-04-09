@@ -50,6 +50,10 @@ app.use('/', (req, res) => {
 
 
 // error handling
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('ERROR');
+});
 
 // start server
 app.listen(config.get('env.port'), err => {
