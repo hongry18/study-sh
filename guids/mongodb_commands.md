@@ -47,13 +47,15 @@ s dot사용시 \n 포함
 자바스크립트 연산자 사용하기 `$where`
 
 embedded document 배열 쿼리 `$elemMatch` (elem Match임)
-
+ 
 ## 쿼리의 Projection
+리턴값은 마찬가지로 cursor임
+
 `.sort({<field>:  [1: 오름차순, -1:내림차순})`
 
-`limit(n)`  n개 출력
+`.limit(n)`  n개 출력
 
-`skip(n)` n개 생략 후 출력
+`.skip(n)` n개 생략 후 출력
 
 ## 도큐멘트 업데이트
 ```
