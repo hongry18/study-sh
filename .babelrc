@@ -5,7 +5,12 @@
         {
             "rootPathPrefix": "~",
             "rootPathSuffix": "server"
+        },
+        {
+            "rootPathPrefix": "#",
+            "rootPathSuffix": "src"
         }
+
         ]]
     ]
 }

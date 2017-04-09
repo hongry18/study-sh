@@ -7,7 +7,7 @@ module.exports = {
     entry: [
         './src/index.js',
         './src/style.css',
-        'webpack-dev-server/client?http://0.0.0.0:7777', // 개발서버의 포트가 이 부분에 입력되어야 제대로 작동합니다
+        'webpack-dev-server/client?http://127.0.0.1:7777', // 개발서버의 포트가 이 부분에 입력되어야 제대로 작동합니다
         'webpack/hot/only-dev-server'
     ],
     

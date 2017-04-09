@@ -10,6 +10,22 @@ import api from '~/routers';
 
 const app = express();
 
+//webpack dev server
+import WebpackDevServer from 'webpack-dev-server';
+import webpack from 'webpack';
+const devPort = 7777;
+if(process.env.NODE_ENV == 'development') {
+    console.log('Server is running on development mode');
+    const config = require('../webpack.dev.config');
+    const compiler = webpack(config);
+    const devServer = new WebpackDevServer(compiler, config.devServer);
+    devServer.listen(
+        devPort, () => {
+            console.log('webpack-dev-server is listening on port', devPort);
+        }
+    );
+}
+
 // middlewares
 app.use(bodyParser.json());
 
@@ -30,19 +46,23 @@ mongoose.connect(config.get('db.mongo'));
 // routers
 app.use('/api', api);
 
-// static page
-//app.use('/', express.static(path.join(config.get('env.path', 'public/'))));
+app.use('/', express.static( path.join(config.get('env.path'), 'public') ));
 
-app.use('/', (req, res) => {
-    let sess = req.session;
-    let result;
-    if (sess.auth) { // if logged in
-        result = `Hello ${sess.username}`;
-    } else { // not logged in
-        result = 'Please Login';
-    }
-    res.send(result);
+app.get('*', (req,res) => {
+    res.sendFile( path.join(config.get('env.path', 'public/index.html')) );
 });
+
+
+//app.use('/', (req, res) => {
+//    let sess = req.session;
+//    let result;
+//    if (sess.auth) { // if logged in
+//        result = `Hello ${sess.username}`;
+//    } else { // not logged in
+//        result = 'Please Login';
+//    }
+//    res.send(result);
+//});
 
 
 //app.get('*', (req, res) => {

@@ -1,9 +1,9 @@
 import React from 'react';
 
-import Menu from '~/components/Menu';
+import Menu from './Menu';
 
 
-class Header {
+class Header extends React.Component {
     render() {
         return (
             <div id="Header">

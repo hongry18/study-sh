@@ -1,15 +1,13 @@
 import React from 'react';
 
-import Login from '~/components/Login';
-import WriteButton from '~/components/WriteButton';
+import Login from '#/components/Login';
 
 
-class Menu {
+class Menu extends React.Component{
     render() {
         return (
             <div id="Menu">
                 <Login/>
-                <WriteButton/>
             </div>
         );
     }
