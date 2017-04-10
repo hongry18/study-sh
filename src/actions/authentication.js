@@ -27,8 +27,9 @@ export function requestLogin(username, userpw) {
     return (dispatch) => {
         dispatch(login());
         // api request
-        return axios.post('http://localhost:8080/api/users/', {username, userpw})
+        return axios.post('api/users/login', {username, userpw})
             .then(response => {
+                console.log(response.data);
                 dispatch(login_succ(username));
             }).catch(err => {
                 dispatch(login_fail());

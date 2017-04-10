@@ -7,7 +7,7 @@ module.exports = {
     entry: [
         './src/index.js',
         './src/style.css',
-        'webpack-dev-server/client?http://127.0.0.1:7777', // 개발서버의 포트가 이 부분에 입력되어야 제대로 작동합니다
+        'webpack-dev-server/client?http://localhost:7777', // 개발서버의 포트가 이 부분에 입력되어야 제대로 작동합니다
         'webpack/hot/only-dev-server'
     ],
     
@@ -25,9 +25,13 @@ module.exports = {
         contentBase: './public',
         /* 모든 요청을 프록시로 돌려서 express의 응답을 받아오며,
         bundle 파일의 경우엔 우선권을 가져서 devserver 의 스크립트를 사용하게 됩니다 */
-        proxy: {
-            "**": "http://localhost:8080" // express 서버주소
-        },
+        proxy: {'**': 'http://localhost:8080', changeOrigin: true}
+        /*proxy: {
+                target: "http://localhost:8080/api", // express 서버주소
+                changeOrigin: true
+            }
+        }*/
+        ,
         stats: {
           // 콘솔 로그를 최소화 합니다
           assets: false,

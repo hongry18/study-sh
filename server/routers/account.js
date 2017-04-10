@@ -40,7 +40,7 @@ router.post('/', (req, res) => {
 
 
 //sign in
-router.get('/', (req, res) => {
+router.post('/login', (req, res) => {
     // validate username
     if (! usernameRegEx.test(req.body.username)) {
         return res.status(401).json({

@@ -7,7 +7,7 @@ class App extends React.Component{
         return (
             <div className="App">
                 <Header />
-                <Login mode={true}/>
+                <Login />
                 {this.props.children}
             </div>
         );

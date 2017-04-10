@@ -47,14 +47,14 @@ class Login extends React.Component {
     render() {
         return (
             <div>{
-                this.props.mode
-                ?this.LoginForm()
-                :this.LogoutForm()
+                this.state.isLoggedIn
+                ?this.LogoutForm()
+                :this.LoginForm()
             }</div>
         );
     }
 
-    //mode = true
+    //isLoggedIn = false
     LoginForm()  {
         return (
             <div className="Login">
@@ -75,7 +75,7 @@ class Login extends React.Component {
         );
     }
 
-    //mode false
+    //isLoggedIn true
     LogoutForm() {
         return (
             <div className="Logout">
@@ -90,7 +90,9 @@ class Login extends React.Component {
 
 let mapStateToProps = (state) => {
     return {
-        status: state.authentication.login.status
+        status: state.authentication.login.status,
+        isLoggedIn: state.authentication.status.isLoggedIn,
+        username: state.authentication.status.currentUser
     };
 };
 
