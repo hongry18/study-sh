@@ -53,7 +53,8 @@ app.use(session(
             port: 6379,
             client: client,
             prefix : "session:",
-            db : 0
+            db : 0,
+            ttl: config.get('session.maxAge')
         }),
         saveUninitialized: false, // don't create session until something stored,
         resave: true // don't save session if unmodified
