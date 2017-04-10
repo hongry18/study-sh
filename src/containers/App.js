@@ -1,14 +1,14 @@
 import React from 'react';
 
-import Header from '#/components/Header';
-import Main from '#/containers/Main';
+import {Header, Login} from '#/components';
 
 class App extends React.Component{
     render() {
         return (
-            <div id="App">
+            <div className="App">
                 <Header />
-                <Main />
+                <Login mode={true}/>
+                {this.props.children}
             </div>
         );
     }
