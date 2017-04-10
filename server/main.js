@@ -14,7 +14,7 @@ import RedisStore from 'connect-redis';
 const redisStore = new RedisStore(session);
 const client = redis.createClient();
 
-// import api from '~/routes';
+import api from '~/routes';
 
 const app = express();
 
@@ -64,7 +64,7 @@ app.use(session(
 app.use( '/', express.static( path.join(config.get('env.path'), '/public')) );
 
 /* setup routers & static directory */
-// app.use( '/api', api );
+app.use( '/api', api );
 
 app.get('*', (req, res) => {
     res.sendFile( path.join(config.get('env.path'), '/public/index.html') );
