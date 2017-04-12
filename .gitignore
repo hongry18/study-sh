@@ -11,6 +11,7 @@
 
 # config
 /config
+nohup.out
 
 # misc
 .DS_Store
