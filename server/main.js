@@ -16,6 +16,8 @@ const client = redis.createClient();
 
 import api from '~/routes';
 
+const port = process.argv[2];
+
 const app = express();
 
 app.use(morgan('dev'));
@@ -76,6 +78,6 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
-app.listen(config.get('env.port'), () => {
-    console.log( 'Express is listening on port ', config.get('env.port') );
+app.listen(port, () => {
+    console.log( 'Express is listening on port ', port );
 });
