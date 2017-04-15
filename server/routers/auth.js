@@ -8,8 +8,7 @@ const router = express.Router();
 const User = mongoose.model('user', models.User);
 const usernameRegEx = /^[a-zA-Z0-9]+$/;
 
-//sign up
-router.post('/', (req, res) => {
+router.post('/signup', (req, res) => {
     if(!usernameRegEx.test(req.body.username)) {
         return res.status(401).json({
             error: 'BAD USERNAME',
@@ -17,13 +16,13 @@ router.post('/', (req, res) => {
         });
     }
     User.findOne({username: req.body.username}, (err, exist) => {
-        if(err) throw err;
         if(exist) {
             return res.status(401).json({
                 error: 'ACCOUNT EXIST',
                 code: 2
             });
         }
+        if(err) throw err;
         //create user
         let newUser = new User({
             username: req.body.username,
@@ -38,8 +37,6 @@ router.post('/', (req, res) => {
     });
 });
 
-
-//sign in
 router.post('/login', (req, res) => {
     // validate username
     if (! usernameRegEx.test(req.body.username)) {
@@ -70,19 +67,28 @@ router.post('/login', (req, res) => {
             _id: user._id,
             username: user.username
         };
+
+        req.session.save();
         return res.json({
             success: true
         });
     });
 });
 
-//sign out
-router.delete('/', (req, res) => {
+router.get('/status', (req, res) => {
+    if(typeof req.session.loginInfo === 'undefined') {
+        return res.status(401).json({
+            error: 1
+        });
+    }
+    res.json({info: req.session.loginInfo});
+});
+
+router.get('/logout', (req, res) => {
     req.session.destroy(err => {if(err) throw err;});
     return res.json({success: true});
 });
 
-//get user
 router.get('/:username', (req, res) => {
     //retrieve user
     User.findOne({username: req.params.username}, {email: 1}, (err, user) => {

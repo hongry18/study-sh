@@ -1,7 +1,11 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {Link, browserHistory} from 'react-router';
 
-import {requestLogin} from '#/actions/authentication';
+import * as ui from 'semantic-ui-react';
+
+import * as auth from '#/actions/auth';
+import {log, error} from '#/debug';
 
 class Login extends React.Component {
     constructor(props) {
@@ -17,25 +21,37 @@ class Login extends React.Component {
 
     handleLogin() {
         this.props.requestLogin(this.state.username, this.state.userpw).then(()=>{
-            if(this.state.status == 'SUCC') {
-                let loginData = {
-                    isLoggedIn: true,
-                    username
-                };
-                //cookie
-                document.cookie = 'key=' + btoa(JSON.stringify(loginData)); ////
-                console.log('login succes!');
-                return true;
-            }
-            else if(this.state.status == 'FAIL') {
-                console.log('login failed');
-                return false;
+            switch(this.props.login.status) {
+                case 'SUCC': {
+                    let loginData = {
+                        isLoggedIn: true,
+                        username: this.state.username
+                    };
+                    //cookie
+                    document.cookie = 'key=' + btoa(JSON.stringify(loginData)); 
+                    log('login success');
+                    browserHistory.push('/');
+
+                    //let newState = {};
+                    //newState['username'] = "";
+                    //newState['userpw'] = "";
+                    //this.setState(newState);
+
+                    return true;
+                }
+                case 'FAIL': {
+                    error('login failed');
+                    return false;
+                }
+                default: {
+                    return false;
+                }
             }
         });
     }
 
     handleLogout(e) {
-        //this.props.onLogout();
+        this.props.requestLogout();
     }
 
     handleChange(e) {
@@ -47,64 +63,73 @@ class Login extends React.Component {
     render() {
         return (
             <div>{
-                this.state.isLoggedIn
+                this.props.status.isLoggedIn
                 ?this.LogoutForm()
                 :this.LoginForm()
             }</div>
         );
     }
 
-    //isLoggedIn = false
-    LoginForm()  {
+    LoginForm()  { //isLoggedIn = false
         return (
-            <div className="Login">
-                <input className="username"
+            <ui.Segment>
+                <ui.Input 
+                    iconPosition="left"
+                    placeholder="ID"
                     name="username"
                     type="text"
                     value={this.state.username}
-                    onChange={this.handleChange} />
-                <input className="userpw"
+                    onChange={this.handleChange}>
+                    <ui.Icon name='user'/>
+                    <input />
+                </ui.Input>
+                <ui.Input 
+                    iconPosition="left"
+                    placeholder="Password"
                     name="userpw"
-                    type="text"
+                    type="password"
                     value={this.state.userpw}
-                    onChange={this.handleChange} />
-                <button onClick={this.handleLogin}>
+                    onChange={this.handleChange}>
+                    <ui.Icon name='lock'/>
+                    <input />
+                </ui.Input>
+                <ui.Button
+                    onClick={this.handleLogin}>
                     Login
-                </button>
-            </div>
+                </ui.Button>
+                <Link to="/signup">SignUp</Link>
+            </ui.Segment>
         );
     }
 
-    //isLoggedIn true
-    LogoutForm() {
+    LogoutForm() { //isLoggedIn true
         return (
-            <div className="Logout">
-                <p>{this.state.username}님 안녕하세요.</p>
-                <button onClick={this.handleLogout}> Logout </button>
-            </div>
+            <ui.Segment>
+                <p>{this.props.status.currentUser}님 안녕하세요.</p>
+                <ui.Button onClick={this.handleLogout}> Logout </ui.Button>
+            </ui.Segment>
         );
     }
-
-
 }
 
 let mapStateToProps = (state) => {
     return {
-        status: state.authentication.login.status,
-        isLoggedIn: state.authentication.status.isLoggedIn,
-        username: state.authentication.status.currentUser
+        login: state.auth.login,
+        status: state.auth.status
     };
 };
 
 let mapDispatchToProps = (dispatch) => {
     return {
         requestLogin: (id,pw) => { 
-            return dispatch(requestLogin(id,pw));
+            return dispatch(auth.requestLogin(id,pw));
+        },
+        requestLogout: ()=>{
+            return dispatch(auth.requestLogout());
         }
     };
 };
 
 Login = connect(mapStateToProps, mapDispatchToProps)(Login);
-
 
 export default Login;

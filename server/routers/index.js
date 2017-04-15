@@ -1,8 +1,8 @@
 import express from 'express';
 
-import account from '~/routers/account';
+import auth from '~/routers/auth';
 
 const router = express.Router();
-router.use('/users', account);
+router.use('/auth', auth);
 
 export default router;
