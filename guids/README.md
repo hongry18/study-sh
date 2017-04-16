@@ -7,3 +7,4 @@
 * [redis 설치 및 express session store로 사용](redis.md)
 * [간단한 MongoDB 명령어](mongodb.cheatsheet.md)
 * [nginx로 클러스터링](nginx-nodejs-cluster.md)
+* [React 15.5 이상 PropTypes 사용법 변경](react-15.5.x.update.md)
