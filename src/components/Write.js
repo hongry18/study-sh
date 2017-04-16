@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Write extends React.Component {
@@ -68,7 +69,7 @@ class Write extends React.Component {
 }
 
 Write.propTypes = {
-    onPost: React.PropTypes.func
+    onPost: PropTypes.func
 };
  
 Write.defaultProps = {

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import TimeAgo from 'react-timeago';
 
 class Post extends React.Component {
@@ -60,8 +61,8 @@ class Post extends React.Component {
 }
 
 Post.propTypes = {
-    data: React.PropTypes.object,
-    ownership: React.PropTypes.bool
+    data: PropTypes.object,
+    ownership: PropTypes.bool
 }
 
 Post.defaultProps = {
