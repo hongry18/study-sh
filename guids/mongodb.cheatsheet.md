@@ -110,3 +110,24 @@ db.collection.update(
 인덱스 제거 dropIndex `db.collection.getIndex(<field>)`
 
 모든 인덱스 제거 `db.collection.getIndexes()`
+
+## Store a JavaScript Function on the Server
+db.collection.save() 의 명령어로 자바스크립트 함수를 만들수 있다.
+### create
+```javascript
+db.system.js.save(
+   {
+     _id: "echoFunction",
+     value : function(x) { return x; }
+   }
+)
+```
+
+### usage
+```javascript
+db.loadServerScripts();
+
+echoFunction(3);
+```
+> 몽고DB에서 db.loadServerScripts(); 를 입력하면 현재 데이터베이스에 system.js에 저장된 모든 스크립트를 로드 할 수 있다.<br />
+로드 된 후에 echoFunction(3); 만들어 준 함수를 사용 가능하다.
