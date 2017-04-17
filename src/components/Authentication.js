@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
+import PropTypes from 'prop-types';
  
 class Authentication extends React.Component {
     constructor(props) {
@@ -133,9 +134,9 @@ class Authentication extends React.Component {
 }
  
 Authentication.propTypes = {
-    mode: React.PropTypes.bool,
-    onLogin: React.PropTypes.func,
-    onRegister: React.PropTypes.func
+    mode: PropTypes.bool,
+    onLogin: PropTypes.func,
+    onRegister: PropTypes.func
 };
  
 Authentication.defaultProps = {

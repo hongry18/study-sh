@@ -1,6 +1,6 @@
 {
     "env": {
-        "port": 4444,
+        "port": 3000,
         "path": "/Users/yujaemin/project/study/blog"
     },
     "db": {

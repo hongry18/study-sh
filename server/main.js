@@ -54,6 +54,26 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
+
+// dev 
+
+import webpack from 'webpack';
+import WebpackDevServer from 'webpack-dev-server';
+
+const devPort = 5555;
+if(process.env.NODE_ENV == 'development') {
+    console.log('Server is running on development mode');
+    const configure = require('../webpack.dev.config');
+    const compiler = webpack(configure);
+    const devServer = new WebpackDevServer(compiler, configure.devServer);
+    devServer.listen(
+        devPort, () => {
+            console.log('webpack-dev-server is listening on port', devPort);
+        }
+    );
+}
+
 app.listen(config.get('env.port'), () => {
     console.log( 'Express is listening on port ', config.get('env.port') );
 });
+
