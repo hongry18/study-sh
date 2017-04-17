@@ -1,6 +1,12 @@
+if (process.argv.length < 3){
+    console.log('invalid port');
+    console.log('ex) node app <port>');
+    process.exit(0);
+}
+
 import express from 'express';
 import path from 'path';
-import config from 'config';
+import config from '@/config';
 
 import morgan from 'morgan'; // HTTP REQUEST LOGGER
 import bodyParser from 'body-parser'; // PARSE HTML BODY
@@ -21,32 +27,33 @@ const port = process.argv[2];
 const app = express();
 
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
+app.set('jwt-secret', config.jwt.secret)
 
 /* mongodb connection */
 const db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', () => { console.log('Connected to mongodb server'); });
-mongoose.connect( config.get('db.mongo') );
+mongoose.connect( config.db.mongo );
 
 /* use session */
 /* use session with mongodb store */
-/*
 app.use(session({
-    secret: config.get('session.secret'),
+    secret: config.session.secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
-        maxAge: config.get('session.maxAge') * config.get('session.millisecond')
+        maxAge: config.session.maxAge * config.session.millisecond
     },
     store: new MongoStore({
         mongooseConnection: mongoose.connection,
-        ttl: config.get('session.maxAge')
+        ttl: config.session.maxAge
     })
 }));
-*/
 
 /* use session with redis store */
+/*
 app.use(session(
     {
         secret: 'foo',
@@ -56,20 +63,21 @@ app.use(session(
             client: client,
             prefix : "session:",
             db : 0,
-            ttl: config.get('session.maxAge')
+            ttl: config.session.maxAge
         }),
         saveUninitialized: false, // don't create session until something stored,
         resave: true // don't save session if unmodified
     }
 ));
+*/
 
-app.use( '/', express.static( path.join(config.get('env.path'), '/public')) );
+app.use( '/', express.static( path.join(config.env.path, '/public')) );
 
 /* setup routers & static directory */
 app.use( '/api', api );
 
 app.get('*', (req, res) => {
-    res.sendFile( path.join(config.get('env.path'), '/public/index.html') );
+    res.sendFile( path.join(config.env.path, '/public/index.html') );
 });
 
 /* handle error */
