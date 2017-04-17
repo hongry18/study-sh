@@ -6,12 +6,7 @@ if (process.argv.length < 3){
 
 import express from 'express';
 import path from 'path';
-<<<<<<< HEAD
 import config from '@/config';
-=======
-
-import config from '@/config.js';
->>>>>>> origin/hongry
 
 import morgan from 'morgan'; // HTTP REQUEST LOGGER
 import bodyParser from 'body-parser'; // PARSE HTML BODY
@@ -51,11 +46,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-<<<<<<< HEAD
-        maxAge: config.session.maxAge * config.session.millisecond
-=======
         maxAge: config.session.maxAge
->>>>>>> origin/hongry
     },
     store: new MongoStore({
         mongooseConnection: mongoose.connection,
@@ -97,11 +88,6 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
-<<<<<<< HEAD
 app.listen(port, () => {
     console.log( 'Express is listening on port ', port );
-=======
-app.listen(config.env.port, () => {
-    console.log( 'Express is listening on port ', config.env.port );
->>>>>>> origin/hongry
 });
