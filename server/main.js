@@ -6,7 +6,12 @@ if (process.argv.length < 3){
 
 import express from 'express';
 import path from 'path';
+<<<<<<< HEAD
 import config from '@/config';
+=======
+
+import config from '@/config.js';
+>>>>>>> origin/hongry
 
 import morgan from 'morgan'; // HTTP REQUEST LOGGER
 import bodyParser from 'body-parser'; // PARSE HTML BODY
@@ -26,6 +31,8 @@ const port = process.argv[2];
 
 const app = express();
 
+app.set('jwt-secret', config.jwt.secret );
+
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
@@ -44,7 +51,11 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     cookie: {
+<<<<<<< HEAD
         maxAge: config.session.maxAge * config.session.millisecond
+=======
+        maxAge: config.session.maxAge
+>>>>>>> origin/hongry
     },
     store: new MongoStore({
         mongooseConnection: mongoose.connection,
@@ -86,6 +97,11 @@ app.use(function(err, req, res, next) {
   res.status(500).send('Something broke!');
 });
 
+<<<<<<< HEAD
 app.listen(port, () => {
     console.log( 'Express is listening on port ', port );
+=======
+app.listen(config.env.port, () => {
+    console.log( 'Express is listening on port ', config.env.port );
+>>>>>>> origin/hongry
 });

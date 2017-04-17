@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Post from './Post';
 
 class PostList extends React.Component {
@@ -24,8 +25,8 @@ class PostList extends React.Component {
 }
 
 PostList.propTypes = {
-    data: React.PropTypes.array,
-    currentUser: React.PropTypes.string
+    data: PropTypes.array,
+    currentUser: PropTypes.string
 };
  
 PostList.defaultProps = {
@@ -34,4 +35,3 @@ PostList.defaultProps = {
 };
 
 export default PostList;
-

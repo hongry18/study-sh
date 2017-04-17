@@ -9,6 +9,9 @@
             ,{
                 "rootPathPrefix": "@"
             }
+            ,{
+                "rootPathPrefix": "@"
+            }
         ]]
     ]
 }
