@@ -36,12 +36,15 @@ class App extends React.Component{
     }
 
     render() {
-        let re = /(signin|signup)/;
+        let re = /(signup)/;
         let isAuth = re.test(this.props.location.pathname);
 
         return (
             <div>
-                {isAuth ? <div>auth</div> : <Header isLoggedIn={this.props.status.isLoggedIn}/>}
+                {isAuth
+                ? undefined
+                : <Header isLoggedIn={this.props.status.isLoggedIn}/>
+                }
                 {this.props.children}
             </div>
         );

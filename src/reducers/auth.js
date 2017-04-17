@@ -25,16 +25,6 @@ export default function auth(state, action) {
                     status: {$set: 'WAIT'}
                 }
             });
-        case types.AUTH_LOGOUT:
-            return update(state, {
-                login: {
-                    status: {$set: 'INIT'}
-                },
-                status: {
-                    isLoggedIn: {$set: false},
-                    currentUser: {$set: undefined}
-                }
-            });
         case types.AUTH_LOGIN_SUCC:
             return update(state, {
                 login: {
@@ -49,6 +39,16 @@ export default function auth(state, action) {
             return update(state, {
                 login: {
                     status: {$set: 'FAIL'}
+                }
+            });
+        case types.AUTH_LOGOUT:
+            return update(state, {
+                login: {
+                    status: {$set: 'INIT'}
+                },
+                status: {
+                    isLoggedIn: {$set: false},
+                    currentUser: {$set: ''}
                 }
             });
         case types.AUTH_REGISTER:

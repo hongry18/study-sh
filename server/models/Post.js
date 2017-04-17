@@ -1,17 +1,9 @@
 import {Schema} from 'mongoose';
 
-const commentSchema = new Schema({
-    author: String,
-    content: String,
-    date: Date
-});
-
-const postSchema = new Schema({
-    post_id: Number,
+export const postSchema = new Schema({
     title: String,
-    author: String,
     content: String,
-    comments: [commentSchema],
+    author: String,
     date: Date
 });
 

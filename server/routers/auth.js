@@ -2,7 +2,7 @@ import express from 'express';
 import config from 'config';
 import mongoose from 'mongoose';
 
-import models from '~/models'; // import models
+import * as models from '~/models'; // import models
 
 const router = express.Router();
 const User = mongoose.model('user', models.User);

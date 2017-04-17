@@ -51,13 +51,23 @@ class Login extends React.Component {
     }
 
     handleLogout(e) {
-        this.props.requestLogout();
+        this.props.requestLogout().then(() => {
+            let loginData = {
+                isLoggedIn: false,
+                username: ''
+            };
+            document.cookie = 'key=' + btoa(JSON.stringify(loginData));
+        });
     }
 
     handleChange(e) {
         let new_state = {};
         new_state[e.target.name] = e.target.value;
         this.setState(new_state);
+    }
+
+    handleSignUp() {
+        browserHistory.push('/signup');
     }
     
     render() {
@@ -72,42 +82,38 @@ class Login extends React.Component {
 
     LoginForm()  { //isLoggedIn = false
         return (
-            <ui.Segment>
-                <ui.Input 
-                    iconPosition="left"
-                    placeholder="ID"
-                    name="username"
-                    type="text"
-                    value={this.state.username}
-                    onChange={this.handleChange}>
-                    <ui.Icon name='user'/>
-                    <input />
-                </ui.Input>
-                <ui.Input 
-                    iconPosition="left"
-                    placeholder="Password"
-                    name="userpw"
-                    type="password"
-                    value={this.state.userpw}
-                    onChange={this.handleChange}>
-                    <ui.Icon name='lock'/>
-                    <input />
-                </ui.Input>
-                <ui.Button
-                    onClick={this.handleLogin}>
-                    Login
-                </ui.Button>
-                <Link to="/signup">SignUp</Link>
-            </ui.Segment>
+            <div>
+            <ui.Input 
+                iconPosition="left"
+                placeholder="ID"
+                name="username"
+                type="text"
+                value={this.state.username}
+                onChange={this.handleChange}>
+                <ui.Icon name='user'/>
+                <input />
+            </ui.Input>
+            <ui.Input 
+                iconPosition="left"
+                placeholder="Password"
+                name="userpw"
+                type="password"
+                value={this.state.userpw}
+                onChange={this.handleChange}>
+                <ui.Icon name='lock'/>
+                <input />
+            </ui.Input>
+            <ui.Button onClick={this.handleLogin}>Login</ui.Button>
+            <ui.Button onClick={this.handleSignUp}>SignUp</ui.Button>
+        </div>
         );
     }
 
     LogoutForm() { //isLoggedIn true
         return (
-            <ui.Segment>
-                <p>{this.props.status.currentUser}님 안녕하세요.</p>
-                <ui.Button onClick={this.handleLogout}> Logout </ui.Button>
-            </ui.Segment>
+            <div>
+                {this.props.status.currentUser}님 안녕하세요. <ui.Button onClick={this.handleLogout}>Logout</ui.Button>
+            </div>
         );
     }
 }

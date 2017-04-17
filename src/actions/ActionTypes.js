@@ -10,3 +10,11 @@ export const AUTH_REGISTER_FAIL = 'AUTH_REGISTER_FAIL';
 export const AUTH_GET_STATUS = 'AUTH_GET_STATUS';
 export const AUTH_GET_STATUS_SUCC = 'AUTH_GET_STATUS_SUCC';
 export const AUTH_GET_STATUS_FAIL = 'AUTH_GET_STATUS_FAIL';
+
+export const MEMO_POST = 'MEMO_POST';
+export const MEMO_POST_SUCC = 'MEMO_POST_SUCC';
+export const MEMO_POST_FAIL = 'MEMO_POST_FAIL';
+
+export const MEMO_GET = 'MEMO_GET';
+export const MEMO_GET_SUCC = 'MEMO_GET_SUCC';
+export const MEMO_GET_FAIL = 'MEMO_GET_FAIL';
