@@ -4,7 +4,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 
 const env = process.env.NODE_ENV || 'production';
-module.exports = {
+const webpackConfig = {
     name: 'production',
     target: 'web',
     entry: [
@@ -59,3 +59,5 @@ if (env === 'production') {
         })
     )
 }
+
+module.exports = webpackConfig;
