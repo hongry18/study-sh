@@ -3,6 +3,7 @@ import { types } from '#/actions';
 
 
 const memo = {
+    // POST
     post() {
         return {
             type: types.MEMO_POST
@@ -41,9 +42,11 @@ const memo = {
         };
     },
 
-    get_succ(data) {
+    get_succ(data, isInitial, listStyle) {
         return {
             type: types.MEMO_GET_SUCC,
+            isInitial,
+            listStyle,
             data
         };
     },
@@ -55,14 +58,80 @@ const memo = {
         };
     },
 
-    requestGet() {
+    requestGet(isInitial, listStyle, memoId) {
+        let url = 'api/memo';
+        url += isInitial?'':`${listStyle}/${memoId}`;
+
         return (dispatch) => {
             dispatch(this.get());
-            return axios.get('api/memo/')
+            return axios.get(url)
                 .then(res => {
-                    dispatch(this.get_succ(res.data));
+                    dispatch(this.get_succ(res.data, isInitial, listStyle));
                 }).catch(error => {
                     dispatch(this.get_fail(error.response.data.code));
+                });
+        };
+    },
+
+    // MODIFY
+    put() {
+        return {
+            type: types.MEMO_PUT
+        };
+    },
+
+    put_succ() {
+        return {
+            type: types.MEMO_PUT_SUCC
+        };
+    },
+
+    put_fail() {
+        return {
+            type: types.MEMO_PUT_FAIL
+        };
+    },
+
+    requestPut(id, title, content) {
+        return (dispatch) => {
+            dispatch(this.put());
+            return axios.put('api/memo/', {id, title, content})
+                .then(res => {
+                    dispatch(this.put_succ());
+                }).catch(err => {
+                    dispatch(this.put_fail(err.response.data.code));
+                });
+
+        };
+    },
+
+    // DELETE
+    delete() {
+        return {
+            type: types.MEMO_DELETE
+        };
+    },
+
+    delete_succ() {
+        return {
+            type: types.MEMO_DELETE_SUCC
+        };
+    },
+
+    delete_fail() {
+        return {
+            type: types.MEMO_DELETE_FAIL
+        };
+    },
+
+    requestDelete(id) {
+        return (dispatch) => {
+            dispatch(this.delete());
+            return axios.delete('api/memo/'+id)
+                .then(res => {
+                    dispatch(this.delete_succ());
+                }).catch(err => {
+                    dispatch(this.delete_fail(err.response.code));
                 });
         };
     },

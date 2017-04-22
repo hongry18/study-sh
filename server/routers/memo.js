@@ -30,7 +30,7 @@ router.post('/', (req, res) => {
 });
 
 // MODIFY
-router.put('/', (req, res) => {
+router.put('/:id', (req, res) => {
     // validation
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
@@ -123,6 +123,45 @@ router.get('/', (req, res) => {
             if(err) throw err;
             res.json(posts);
         });
+});
+
+// GET POST LIST
+router.get('/:listStyle/:id', (req, res) => {
+    let listStyle = req.params.listStyle;
+    let reqId = req.params.id;
+
+    if (listStyle != 'old' && listStyle != 'new'){
+        return res.status(400).json({
+            error: 'INVALID LIST STYLE',
+            code: 1
+        });
+    }
+    if (!mongoose.Types.ObjectId.isValid(reqId)){
+        return res.status(400).json({
+            error: 'INVALID ID',
+            code: 2
+        });
+    }
+    let currentObjId = new mongoose.Types.ObjectId(reqId);
+    if (listStyle == 'old'){
+        // Older posts
+        Post.find({ _id: {$lt: currentObjId} })
+            .sort({_id: -1})
+            .limit(6)
+            .exec((err, posts) => {
+                if(err) throw err;
+                return res.json(posts);       
+            });
+    }else {
+        // Newer posts
+        Post.find({ _id: {$gt: currentObjId} })
+            .sort({_id: -1})
+            .limit(6)
+            .exec((err, posts) => {
+                if(err) throw err;
+                return res.json(posts);       
+            });
+    }
 });
 
 export default router;

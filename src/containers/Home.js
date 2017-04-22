@@ -39,7 +39,7 @@ class Home extends Component{
     }
 
     handlePost(title, content) {
-        return this.props.requestMemoPost(title, content);
+        return this.props.requestPost(title, content);
     }
 
     render() {
@@ -58,8 +58,9 @@ class Home extends Component{
     }
 
     componentDidMount(){
-        this.props.requestMemoGet().then(()=>{
-            // do something
+        //load unconditionally
+        this.props.requestMemoGet(true).then(()=>{
+            //do somthing
         });
     }
 }
@@ -77,8 +78,8 @@ let mapDispatchToProps = (dispatch) => {
         requestMemoPost: (title, content) => {
             return dispatch(memo.requestPost(title, content));
         },
-        requestMemoGet: () => {
-            return dispatch(memo.requestGet());
+        requestMemoGet: (isInitial) => {
+            return dispatch(memo.requestGet(isInitial));
         }
     };
 };

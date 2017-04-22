@@ -36,7 +36,7 @@ const webpackConfig = {
                 NODE_ENV: JSON.stringify(env),
             },
         }),
-        // new BundleAnalyzerPlugin(),
+        new BundleAnalyzerPlugin(),
     ],
     resolve: {
         root: [

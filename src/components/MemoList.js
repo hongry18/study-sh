@@ -12,16 +12,19 @@ class MemoList extends Component {
     }
 
     render(){
-        const mapDataToMemo = this.props.data.map(memo => 
-            <Memo data={memo}
-                ownership={(memo.author === this.props.currentUser)}
-                key={memo._id}
-            />
-        );
         return (
             <div>
-                {mapDataToMemo}
+                {this.mapDataToMemo(this.props.data, this.props.currentUser)}
             </div>
+        );
+    }
+
+    mapDataToMemo(data, username){
+        return data.map(memo => 
+            <Memo data={memo}
+                ownership={(memo.author === username)}
+                key={memo._id}
+            />
         );
     }
 }

@@ -10,12 +10,14 @@ module.exports = {
         'webpack/hot/only-dev-server'
     ],
     output: {
-        path: path.resolve(__dirname, 'public'), // not in-memory
+        path: '/',
+        //path: path.resolve(__dirname, 'public'), // not in-memory
         filename: 'bundle.js'
     },
     devServer: {
         hot: true,
-        contentBase: './public', // same as output path
+        contentBase: '/',
+        //contentBase: './public', // same as output path
         filename: 'bundle.js',
         proxy: {
             '**': 'http://localhost:8080'
