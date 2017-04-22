@@ -1,7 +1,8 @@
 # React 컴포넌트 템플릿 (redux 연결)
 ```js
 'use strict';
-import React, {Component, PropTypes} from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class Foo extends Component {
