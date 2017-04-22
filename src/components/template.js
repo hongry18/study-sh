@@ -1,10 +1,14 @@
-import React from 'react';
+import React, {Component, PropTypes} from 'react';
 
-class Foo extends React.Component{
+
+class Foo extends Component{
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
-            <div id="Foo">
-
+            <div>
             </div>
         );
     }

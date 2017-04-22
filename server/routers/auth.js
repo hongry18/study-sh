@@ -1,17 +1,26 @@
 import express from 'express';
-import config from 'config';
 import mongoose from 'mongoose';
+import config from 'config';
+// models
+import * as models from '~/models'; 
 
-import * as models from '~/models'; // import models
 
 const router = express.Router();
 const User = mongoose.model('user', models.User);
-const usernameRegEx = /^[a-zA-Z0-9]+$/;
+const usernameRegEx = /^[a-zA-Z]{1}[a-zA-Z0-9]+$/;
+const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
 
 router.post('/signup', (req, res) => {
     if(!usernameRegEx.test(req.body.username)) {
         return res.status(401).json({
             error: 'BAD USERNAME',
+            code: 1
+        });
+    }
+    if(!emailRegEx.test(req.body.email)) {
+        return res.status(401).json({
+            error: 'BAD EMAIL',
             code: 1
         });
     }
@@ -61,13 +70,11 @@ router.post('/login', (req, res) => {
                 code: 2
             });
         }
-        //update session loginInfo
-        let sess = req.session;
-        sess.loginInfo = {
+        // update session loginInfo
+        req.session.loginInfo = {
             _id: user._id,
             username: user.username
         };
-
         req.session.save();
         return res.json({
             success: true
@@ -81,22 +88,19 @@ router.get('/status', (req, res) => {
             error: 1
         });
     }
-    res.json({info: req.session.loginInfo});
+    res.json({
+        info: req.session.loginInfo
+    });
 });
 
 router.get('/logout', (req, res) => {
-    req.session.destroy(err => {if(err) throw err;});
-    return res.json({success: true});
-});
-
-router.get('/:username', (req, res) => {
-    //retrieve user
-    User.findOne({username: req.params.username}, {email: 1}, (err, user) => {
-        if (err) {
-            console.log(err.stack);
-            return;
+    req.session.destroy((err) => {
+        if(err){
+            throw err;
         }
-        res.send(user['email']); //error
+    });
+    return res.json({
+        success: true
     });
 });
 

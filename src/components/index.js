@@ -1,15 +1,10 @@
-import Header from './Header';
-import Login from './Login';
-import Register from './Register';
-import Write from './Write';
-import Memo from './Memo';
-import MemoList from './MemoList';
+// @create-index
 
-export {
-    Header,
-    Login,
-    Register,
-    Write,
-    Memo,
-    MemoList
-};
+export { default as Header } from './Header.js';
+export { default as Login } from './Login.js';
+export { default as Memo } from './Memo.js';
+export { default as MemoList } from './MemoList.js';
+export { default as Register } from './Register.js';
+export { default as Write } from './Write.js';
+export { default as template } from './template.js';
+

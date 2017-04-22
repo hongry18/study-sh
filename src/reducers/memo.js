@@ -20,7 +20,7 @@ export default function memo(state, action) {
         state = initialState;
     }
 
-    switch(action.types){
+    switch(action.type){
         case types.MEMO_POST:
             return update(state, {
                 post: {

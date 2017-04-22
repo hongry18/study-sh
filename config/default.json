@@ -1,6 +1,7 @@
 {
     "env": {
         "port": 8080,
+        "devPort": 7777,
         "path": "/Users/kidkkr/mean-study/kidkkr-blog"
     },
     "db": {
