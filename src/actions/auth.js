@@ -26,9 +26,8 @@ const auth = {
     requestLogin(username, userpw) {
         return (dispatch) => {
             dispatch(this.login());
-            // api request
             return axios.post('api/auth/login', {username, userpw})
-                .then(response => {
+                .then(res => {
                     dispatch(this.login_succ(username));
                 }).catch(err => {
                     dispatch(this.login_fail());
@@ -118,7 +117,7 @@ const auth = {
                     dispatch(this.get_status_fail());
                 });
         };
-    },
+    }
 }
 
 export default auth;

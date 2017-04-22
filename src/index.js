@@ -9,7 +9,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 
-import {App, Home, SignUp, SignIn} from '#/containers';
+import {App, Home, SignUp} from '#/containers';
 
 const rootElement = document.getElementById('root');
 const store = createStore(reducers, applyMiddleware(thunk));
@@ -21,7 +21,6 @@ ReactDOM.render(
                 <IndexRoute component={Home}/>
                 <Route path="home" component={Home}/>
                 <Route path="signup" component={SignUp}/>
-                <Route path="signin" component={SignIn}/>
             </Route>
         </Router>
     </Provider>,

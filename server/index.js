@@ -5,25 +5,26 @@ import session from 'express-session';
 import mongoose from 'mongoose';
 // path
 import path from 'path';
-import config from 'config';
 // middlewares
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 // development only
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-// server
+// my modules
 import api from '~/routers';
+import config from '~/config';
 
 
 const app = express();
+
 // WEBPACK DEV SERVER
 if(process.env.NODE_ENV == 'development') {
-    let devPort = config.get('env.devPort');
+    let devPort = config.env.devPort;
     console.log('Server is running on development mode');
-    const config = require('../webpack.dev.config');
-    const compiler = webpack(config);
-    const devServer = new WebpackDevServer(compiler, config.devServer);
+    const webpackDevConfig = require('../webpack.dev.config');
+    const compiler = webpack(webpackDevConfig);
+    const devServer = new WebpackDevServer(compiler, webpackDevConfig.devServer);
     devServer.listen(
         devPort, () => {
             console.log('webpack-dev-server is listening on port', devPort);
@@ -33,19 +34,19 @@ if(process.env.NODE_ENV == 'development') {
 
 // SET MIDDLEWARES
 app.use(bodyParser.json());
-app.use(session(config.get('session')));
+app.use(session(config.session));
 app.use(morgan());
 
 // MONGO DB
 const db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', () => { console.log('Connected to Mongod server'); });
-mongoose.connect(config.get('db.mongo'));
+mongoose.connect(config.db.mongo);
 
 // EXPRESS ROUTING
 app.use('/api', api);
 app.use('/', 
-    express.static(path.join(config.get('env.path'), 'public')
+    express.static(path.join(config.env.path, 'public')
 ));
 app.get('*', (req,res) => {
     res.sendFile(path.resolve(__dirname, './../public/index.html'));
@@ -58,9 +59,9 @@ app.use((err, req, res, next) => {
 });
 
 // START SERVER
-app.listen(config.get('env.port'), err => {
+app.listen(config.env.port, err => {
     if(err) {
         console.log(err.stack);
     }
-    console.log('Express is listening on', config.get('env.port'));
+    console.log('Express is listening on', config.env.port);
 });

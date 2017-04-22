@@ -1,6 +1,5 @@
 import express from 'express';
 import mongoose from 'mongoose';
-import config from 'config';
 import * as models from '~/models'; 
 
 

@@ -1,16 +1,16 @@
 {
     "presets": ["es2015"],
     "plugins": [
-        ["babel-plugin-root-import",[
-        {
-            "rootPathPrefix": "~",
-            "rootPathSuffix": "server"
-        },
-        {
-            "rootPathPrefix": "#",
-            "rootPathSuffix": "src"
-        }
-
-        ]]
+        ["babel-plugin-root-import", [
+                {
+                    "rootPathPrefix": "~",
+                    "rootPathSuffix": "server"
+                },
+                {
+                    "rootPathPrefix": "#",
+                    "rootPathSuffix": "src"
+                }
+            ]
+        ],
     ]
 }

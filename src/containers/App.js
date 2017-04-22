@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { 
-    requestGetStatus,
-} from '#/actions/auth';
+import { auth } from '#/actions';
 import { 
     Header,
 } from '#/components';
@@ -26,24 +24,24 @@ class App extends Component{
         function getCookie(name){
             let value = '; ' + document.cookie;
             let parts = value.split('; ' + name + '=');
-            if (parts.length == 2)
-                return parts.pop().split(';').shift();
+            if (parts.length == 2) return parts.pop().split(';').shift();
         }
         let loginData = getCookie('key');
         if (typeof loginData === 'undefined') return;
         loginData = JSON.parse(atob(loginData));
         // check login
         if (!loginData.isLoggedIn) return;
-        this.props.requestGetStatus().then(() => {
-            if (!this.props.status.valid) {
-                // session expired
-                loginData = {
-                    isLoggedIn: false,
-                    username: ''
-                };
-                document.cookie='key=' + btoa(JSON.stringify(loginData));
-            } 
-        });
+        this.props.requestGetStatus()
+            .then(() => { // err????
+                // if session expired
+                if (!this.props.status.valid) {
+                    loginData = {
+                        isLoggedIn: false,
+                        username: ''
+                    };
+                    document.cookie='key=' + btoa(JSON.stringify(loginData));
+                } 
+            });
     }
 }
 
@@ -55,9 +53,9 @@ let mapStateToProps = (state) => {
 
 let mapDispatchToProps = (dispatch) => {
     return {
-        requestGetStatus: ()=>{
-            return dispatch(requestGetStatus());
-        }
+        requestGetStatus: ()=> {
+            return dispatch(auth.requestGetStatus());
+        },
     };
 };
 
