@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { connect } from 'react-redux';
+import { memo } from '#/actions';
 import {
     Write,
     MemoList
 } from '#/components';
-import {
-    requestMemoPost,
-    requestMemoGet
-} from '#/actions/memo';
 
 
 const mock_data = [
@@ -62,7 +59,7 @@ class Home extends Component{
 
     componentDidMount(){
         this.props.requestMemoGet().then(()=>{
-            console.log('didmount', this.props.data);
+            // do something
         });
     }
 }
@@ -78,10 +75,10 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         requestMemoPost: (title, content) => {
-            return dispatch(requestMemoPost(title, content));
+            return dispatch(memo.requestPost(title, content));
         },
         requestMemoGet: () => {
-            return dispatch(requestMemoGet());
+            return dispatch(memo.requestGet());
         }
     };
 };

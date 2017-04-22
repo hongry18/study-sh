@@ -32,7 +32,7 @@ const webpackConfig = {
                 NODE_ENV: JSON.stringify(env),
             },
         }),
-        new BundleAnalyzerPlugin(),
+        // new BundleAnalyzerPlugin(),
     ],
     output: {
         path: path.resolve(__dirname, 'public/dist'),

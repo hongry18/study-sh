@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Link, browserHistory } from 'react-router';
 import { connect } from 'react-redux';
-import * as ui from 'semantic-ui-react';
 import { auth } from '#/actions';
+import * as ui from 'semantic-ui-react';
 
 
 class Login extends Component {
@@ -63,13 +63,13 @@ class Login extends Component {
     handleSignUp() {
         browserHistory.push('/signup');
     }
-    
+
     render() {
         return (
             <div>{
                 this.props.status.isLoggedIn
-                ?this.LogoutForm()
-                :this.LoginForm()
+                    ?this.LogoutForm()
+                    :this.LoginForm()
             }</div>
         );
     }
