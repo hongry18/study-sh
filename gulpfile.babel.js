@@ -8,8 +8,13 @@ gulp.task('create-index', () => {
         './src/components',
         './src/containers',
         './src/actions',
+        './server/models',
     ]);
 });
+
+// webpack 
+// minify
+// uglify
 
 gulp.task('default', ['create-index', ], () => {
     gutil.log('gulp is runnig');

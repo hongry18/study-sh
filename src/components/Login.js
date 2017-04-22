@@ -1,15 +1,14 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {Link, browserHistory} from 'react-router';
-
+import React, { Component } from 'react';
+import { Link, browserHistory } from 'react-router';
+import { connect } from 'react-redux';
 import * as ui from 'semantic-ui-react';
+import { auth } from '#/actions';
 
-import * as auth from '#/actions/auth';
-import {log, error} from '#/debug';
 
-class Login extends React.Component {
+class Login extends Component {
     constructor(props) {
         super(props);
+        //bindings
         this.handleLogin = this.handleLogin.bind(this);
         this.handleLogout = this.handleLogout.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -27,20 +26,15 @@ class Login extends React.Component {
                         isLoggedIn: true,
                         username: this.state.username
                     };
-                    //cookie
                     document.cookie = 'key=' + btoa(JSON.stringify(loginData)); 
-                    log('login success');
+                    this.setState({
+                        username: '',
+                        userpw: ''
+                    });
                     browserHistory.push('/');
-
-                    //let newState = {};
-                    //newState['username'] = "";
-                    //newState['userpw'] = "";
-                    //this.setState(newState);
-
                     return true;
                 }
                 case 'FAIL': {
-                    error('login failed');
                     return false;
                 }
                 default: {
@@ -83,36 +77,37 @@ class Login extends React.Component {
     LoginForm()  { //isLoggedIn = false
         return (
             <div>
-            <ui.Input 
-                iconPosition="left"
-                placeholder="ID"
-                name="username"
-                type="text"
-                value={this.state.username}
-                onChange={this.handleChange}>
-                <ui.Icon name='user'/>
-                <input />
-            </ui.Input>
-            <ui.Input 
-                iconPosition="left"
-                placeholder="Password"
-                name="userpw"
-                type="password"
-                value={this.state.userpw}
-                onChange={this.handleChange}>
-                <ui.Icon name='lock'/>
-                <input />
-            </ui.Input>
-            <ui.Button onClick={this.handleLogin}>Login</ui.Button>
-            <ui.Button onClick={this.handleSignUp}>SignUp</ui.Button>
-        </div>
+                <ui.Input 
+                    iconPosition="left"
+                    placeholder="ID"
+                    name="username"
+                    type="text"
+                    value={this.state.username}
+                    onChange={this.handleChange}>
+                    <ui.Icon name='user'/>
+                    <input />
+                </ui.Input>
+                <ui.Input 
+                    iconPosition="left"
+                    placeholder="Password"
+                    name="userpw"
+                    type="password"
+                    value={this.state.userpw}
+                    onChange={this.handleChange}>
+                    <ui.Icon name='lock'/>
+                    <input />
+                </ui.Input>
+                <ui.Button onClick={this.handleLogin}>Login</ui.Button>
+                <ui.Button onClick={this.handleSignUp}>SignUp</ui.Button>
+            </div>
         );
     }
 
     LogoutForm() { //isLoggedIn true
         return (
             <div>
-                {this.props.status.currentUser}님 안녕하세요. <ui.Button onClick={this.handleLogout}>Logout</ui.Button>
+                <ui.Icon name='user' /> {this.props.status.currentUser}
+                <ui.Button onClick={this.handleLogout}>Logout</ui.Button>
             </div>
         );
     }
@@ -136,6 +131,4 @@ let mapDispatchToProps = (dispatch) => {
     };
 };
 
-Login = connect(mapStateToProps, mapDispatchToProps)(Login);
-
-export default Login;
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -1,9 +1,15 @@
-import React from 'react';
-import {Link} from 'react-router';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { Link } from 'react-router';
+import { connect } from 'react-redux';
+import {
+    Write,
+    MemoList
+} from '#/components';
+import {
+    requestMemoPost,
+    requestMemoGet
+} from '#/actions/memo';
 
-import {Write, MemoList} from '#/components';
-import {requestMemoPost, requestMemoGet} from '#/actions/memo';
 
 const mock_data = [
     {
@@ -29,13 +35,7 @@ const mock_data = [
     }
 ];
 
-class Home extends React.Component{
-    componentDidMount(){
-        this.props.requestMemoGet().then(()=>{
-            console.log('didmount', this.props.data);
-        });
-    }
-
+class Home extends Component{
     constructor(props){
         super(props);
         this.handlePost = this.handlePost.bind(this);
@@ -46,16 +46,24 @@ class Home extends React.Component{
     }
 
     render() {
-        let write = (
-            <Write onPost={this.handlePost} />   
-        );
-
         return (
             <div>
-                {this.props.isLoggedIn?write:undefined}
-                <MemoList data={this.props.data} currentUser={this.props.currentUser} />
+                {this.props.isLoggedIn
+                        ? <Write onPost={this.handlePost} />   
+                        : undefined
+                }
+                <MemoList
+                    data={this.props.data}
+                    currentUser={this.props.currentUser}
+                />
             </div>
         );
+    }
+
+    componentDidMount(){
+        this.props.requestMemoGet().then(()=>{
+            console.log('didmount', this.props.data);
+        });
     }
 }
 
@@ -63,8 +71,6 @@ let mapStateToProps = (state) => {
     return {
         isLoggedIn: state.auth.status.isLoggedIn,
         currentUser: state.auth.status.currentUser,
-        postStatus: state.memo.post.status,
-        getStatus: state.memo.get.status,
         data: state.memo.get.data
     };
 };
@@ -80,6 +86,4 @@ let mapDispatchToProps = (dispatch) => {
     };
 };
 
-Home = connect(mapStateToProps, mapDispatchToProps)(Home);
-
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

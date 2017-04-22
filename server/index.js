@@ -17,7 +17,7 @@ import api from '~/routers';
 
 
 const app = express();
-
+// WEBPACK DEV SERVER
 if(process.env.NODE_ENV == 'development') {
     let devPort = config.get('env.devPort');
     console.log('Server is running on development mode');
@@ -31,18 +31,18 @@ if(process.env.NODE_ENV == 'development') {
     );
 }
 
-// set middlewares
+// SET MIDDLEWARES
 app.use(bodyParser.json());
 app.use(session(config.get('session')));
 app.use(morgan());
 
-// mongoDB
+// MONGO DB
 const db = mongoose.connection;
 db.on('error', console.error);
 db.once('open', () => { console.log('Connected to Mongod server'); });
 mongoose.connect(config.get('db.mongo'));
 
-// express routing
+// EXPRESS ROUTING
 app.use('/api', api);
 app.use('/', 
     express.static(path.join(config.get('env.path'), 'public')
@@ -51,13 +51,13 @@ app.get('*', (req,res) => {
     res.sendFile(path.resolve(__dirname, './../public/index.html'));
 });
 
-// error handling
+// ERROR HANDLING
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('ERROR');
 });
 
-// start server
+// START SERVER
 app.listen(config.get('env.port'), err => {
     if(err) {
         console.log(err.stack);

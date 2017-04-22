@@ -6,5 +6,4 @@ export { default as Memo } from './Memo.js';
 export { default as MemoList } from './MemoList.js';
 export { default as Register } from './Register.js';
 export { default as Write } from './Write.js';
-export { default as template } from './template.js';
 

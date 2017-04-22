@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { Component } from 'react';
 import TimeAgo from 'react-timeago';
+import PropTypes from 'prop-types';
 import * as ui from 'semantic-ui-react';
 
-class Memo extends React.Component {
+
+class Memo extends Component {
     constructor(props){
         super(props)
     }
 
-    memo_view(data) {
+    render() {
+        return (
+            <div>
+                {this.MemoForm(this.props.data)}
+            </div>
+        );
+    }
+
+    MemoForm(data) {
         return (
             <div>
             <ui.Segment>
@@ -20,20 +30,13 @@ class Memo extends React.Component {
             </ui.Segment>
             </div>
         );
-    }
+    };
 
-    render(){
-        return (
-            <div>
-                {this.memo_view(this.props.data)}
-            </div>
-        );
-    }
 }
 
 Memo.propTypes = {
-    data: React.PropTypes.object,
-    ownership: React.PropTypes.bool
+    data: PropTypes.object,
+    ownership: PropTypes.bool
 };
 
 Memo.defaultProps = {

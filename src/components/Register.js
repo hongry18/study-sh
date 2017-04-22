@@ -1,13 +1,11 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {Router, browserHistory} from 'react-router';
-
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Router, browserHistory } from 'react-router';
 import * as ui from 'semantic-ui-react';
+import { auth } from '#/actions';
 
-import * as auth from '#/actions/auth';
-import {log, error} from '#/debug';
 
-class Register extends React.Component {
+class Register extends Component {
     constructor(props) {
         super(props);
         this.handleChange = this.handleChange.bind(this);
@@ -21,12 +19,6 @@ class Register extends React.Component {
         }
     }
 
-    errorMsg() {
-        return (
-            <div> {this.state.err} </div>
-        );
-    }
-
     handleChange(e) {
         let new_state = {};
         new_state[e.target.name] = e.target.value;
@@ -34,7 +26,7 @@ class Register extends React.Component {
     }
 
     handleSubmit() {
-        if (this.state.userpw != this.state.userpw_confirm) {
+        if (this.state.userpw !== this.state.userpw_confirm) {
             error('pw mismatched');
             return;
         }
@@ -51,7 +43,7 @@ class Register extends React.Component {
                         userpw: '',
                         userpw_confirm: '',
                         email: '',
-                        er: ''
+                        err: ''
                     });
                     browserHistory.goBack();
                     return false;
@@ -81,55 +73,73 @@ class Register extends React.Component {
     render() {
         return (
             <div>
-            <ui.Container>
-                <ui.Input
-                    iconPosition="left"
-                    placeholder="ID"
-                    name="username"
-                    type="text"
-                    onChange={this.handleChange}
-                >
-                    <ui.Icon name='user'/>
-                    <input />
-                </ui.Input><br/>
-                <ui.Input
-                    iconPosition="left"
-                    placeholder="Password"
-                    name="userpw"
-                    type="password"
-                    onChange={this.handleChange}
-                >
-                    <ui.Icon name='lock'/>
-                    <input />
-                </ui.Input><br/>
-                <ui.Input
-                    iconPosition="left"
-                    placeholder="Password Confirm"
-                    name="userpw_confirm"
-                    type="password"
-                    onChange={this.handleChange}
-                >
-                    <ui.Icon name='lock'/>
-                    <input />
-                </ui.Input><br/>
-                <ui.Input
-                    iconPosition="left"
-                    placeholder="Email"
-                    name="email"
-                    type="text"
-                    onChange={this.handleChange}
-                >
-                    <ui.Icon name='at'/>
-                    <input />
-                </ui.Input><br/>
-                <ui.Button
-                    onClick={this.handleSubmit}
-                >
-                    Submit
-                </ui.Button>
-                {this.props.register.code != -1 ? this.errorMsg() : '' }
-            </ui.Container>
-        </div>
+                {this.RegisterForm()} 
+                {this.props.register.code != -1
+                        ?this.ErrorForm()
+                        :undefined
+                }
+            </div>
+
+        );
+    }
+
+    RegisterForm() {
+        return (
+            <div>
+                <ui.Container>
+                    <ui.Input
+                        iconPosition="left"
+                        placeholder="ID"
+                        name="username"
+                        type="text"
+                        onChange={this.handleChange}
+                    >
+                        <ui.Icon name='user'/>
+                        <input />
+                    </ui.Input><br/>
+                    <ui.Input
+                        iconPosition="left"
+                        placeholder="Password"
+                        name="userpw"
+                        type="password"
+                        onChange={this.handleChange}
+                    >
+                        <ui.Icon name='lock'/>
+                        <input />
+                    </ui.Input><br/>
+                    <ui.Input
+                        iconPosition="left"
+                        placeholder="Password Confirm"
+                        name="userpw_confirm"
+                        type="password"
+                        onChange={this.handleChange}
+                    >
+                        <ui.Icon name='lock'/>
+                        <input />
+                    </ui.Input><br/>
+                    <ui.Input
+                        iconPosition="left"
+                        placeholder="Email"
+                        name="email"
+                        type="text"
+                        onChange={this.handleChange}
+                    >
+                        <ui.Icon name='at'/>
+                        <input />
+                    </ui.Input><br/>
+                    <ui.Button
+                        onClick={this.handleSubmit}
+                    >
+                        Submit
+                    </ui.Button>
+                </ui.Container>
+            </div>
+        );
+    }
+
+    ErrorForm() {
+        return (
+            <ui.Label>{this.state.err}</ui.Label>
         );
     }
 }
@@ -148,6 +158,4 @@ let mapDispatchToProps = (dispatch) => {
     }
 };
 
-Register = connect(mapStateToProps, mapDispatchToProps)(Register);
-
-export default Register;
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

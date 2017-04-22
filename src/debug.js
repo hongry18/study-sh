@@ -1,4 +1,6 @@
-let VERBOSE = true;
+import config from 'config';
+
+let VERBOSE = config.get('env.debug');
 
 export function log(msg) {
     if(VERBOSE) console.log(msg);

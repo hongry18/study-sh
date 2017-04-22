@@ -1,8 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const env = process.env.NODE_ENV || 'production'
+const env = process.env.NODE_ENV || 'production';
 
 const webpackConfig = {
     name: 'production',
@@ -26,7 +26,6 @@ const webpackConfig = {
             }
         ]
     },
-
     plugins: [
         new webpack.DefinePlugin({
             'process.env': {
@@ -35,20 +34,12 @@ const webpackConfig = {
         }),
         new BundleAnalyzerPlugin(),
     ],
-
     output: {
-        path: path.join(__dirname, 'public/dist'),
+        path: path.resolve(__dirname, 'public/dist'),
         filename: 'bundle.js',
         publicPath: '/'
     },
     debug: true,
-
-    resolve: {
-        root: [
-            path.resolve('./server'),
-            path.resolve('./src')
-        ]
-    }
 };
 
 if (env === 'production') {

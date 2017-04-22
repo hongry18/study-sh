@@ -1,7 +1,5 @@
-import Post from '~/models/Post';
-import User from '~/models/User';
+// @create-index
 
-export {
-    Post,
-    User
-};
+export { default as Post } from './Post.js';
+export { default as User } from './User.js';
+

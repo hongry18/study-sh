@@ -1,6 +1,8 @@
 import axios from 'axios';
-import * as types from '#/actions/ActionTypes';
+import { types } from '#/actions';
 
+
+// POST
 export function memo_post() {
     return {
         type: types.MEMO_POST
@@ -32,6 +34,7 @@ export function requestMemoPost(title, content) {
     };
 }
 
+// GET
 export function memo_get() {
     return {
         type: types.MEMO_GET
@@ -39,7 +42,6 @@ export function memo_get() {
 }
 
 export function memo_get_succ(data) {
-    console.log('action creator_get_succ');
     return {
         type: types.MEMO_GET_SUCC,
         data
@@ -58,10 +60,8 @@ export function requestMemoGet() {
         dispatch(memo_get());
         return axios.get('api/memo/')
             .then(res => {
-                console.log('axios:', res.data); // can get data.. but  @todo
                 dispatch(memo_get_succ(res.data));
             }).catch(error => {
-                // get error code
                 dispatch(memo_get_fail(error.response.data.code));
             });
     };

@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
+import {
+    Register
+} from '#/components';
 
-import {Register} from '#/components';
 
-class SignUp extends React.Component {
+class SignUp extends Component {
     render() {
         return (
             <div>

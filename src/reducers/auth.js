@@ -1,7 +1,8 @@
-import * as types from '#/actions/ActionTypes';
 import update from 'react-addons-update';
+import { types } from '#/actions';
 
-const initialState = {
+
+const initState = {
     login: {
         status: 'INIT'
     },
@@ -14,11 +15,14 @@ const initialState = {
         currentUser: ''
     }
 };
+
 export default function auth(state, action) {
     if(typeof state == 'undefined') {
-        state = initialState;
+        state = initState;
     }
     switch(action.type) {
+
+        // LOGIN, LOGOUT
         case types.AUTH_LOGIN:
             return update(state, {
                 login: {
@@ -51,6 +55,8 @@ export default function auth(state, action) {
                     currentUser: {$set: ''}
                 }
             });
+
+        // REGISTER
         case types.AUTH_REGISTER:
             return update(state, {
                 register: {
@@ -70,6 +76,8 @@ export default function auth(state, action) {
                     code: {$set: action.code}
                 }
             });
+
+        // GET STATUS
         case types.AUTH_GET_STATUS:
             return update(state, {
                 status: {
@@ -91,8 +99,11 @@ export default function auth(state, action) {
                     isLoggedIn: {$set: false}
                 }
             });
+
+        // OTHERS
         default:
             return state;
     }
+
     return state;
 };

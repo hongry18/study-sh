@@ -1,13 +1,12 @@
 import express from 'express';
-import config from 'config';
 import mongoose from 'mongoose';
-
 import * as models from '~/models'; // import models
+
 
 const router = express.Router();
 const Post = mongoose.model('post', models.Post);
 
-// write memo //
+// WRITE
 router.post('/', (req, res) => {
     console.log('memo post req, sess:',req.session.loginInfo);
     // check session
@@ -17,15 +16,12 @@ router.post('/', (req, res) => {
             code: 1
         });
     }
-    // check req body... @todo 
-
     let postBody = {
         title: req.body.title,
         content: req.body.content,
         author: req.session.loginInfo.username,
         date: new Date()
     };
-
     let newPost = new Post(postBody);
     newPost.save( err => {
         if(err) throw err;
@@ -33,7 +29,7 @@ router.post('/', (req, res) => {
     });
 });
 
-// modify memo //
+// MODIFY
 router.put('/', (req, res) => {
     // validation
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -42,7 +38,6 @@ router.put('/', (req, res) => {
             code: 1
         });
     }
-
     // check session
     if(typeof req.session.loginInfo === 'undefined'){
         return res.status(404).json({
@@ -50,7 +45,6 @@ router.put('/', (req, res) => {
             code: 2
         });
     }
-
     Post.findById(req.params.id, (err, doc) => {
         if(err) throw err;
         // check existence
@@ -67,7 +61,6 @@ router.put('/', (req, res) => {
                 code: 4
             });
         }
-        // modify
         doc.title = req.body.title;
         doc.content = req.body.content;
         doc.date = new Date();
@@ -81,7 +74,7 @@ router.put('/', (req, res) => {
     });
 });
 
-// delete memo //
+// DELETE POST BY ID
 router.delete('/:id', (req, res) => {
     // validation
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -90,7 +83,6 @@ router.delete('/:id', (req, res) => {
             code: 1
         });
     }
-
     // check session
     if(typeof req.session.loginInfo === 'undefined'){
         return res.status(404).json({
@@ -98,7 +90,6 @@ router.delete('/:id', (req, res) => {
             code: 2
         });
     }
-
     Post.findById(req.params.id, (err, doc) => {
         if(err) throw err;
         // check existence
@@ -123,7 +114,7 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-// get memo list //
+// GET POST LIST
 router.get('/', (req, res) => {
     Post.find()
         .sort({_id: -1})

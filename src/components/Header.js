@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as ui from 'semantic-ui-react';
-import {Login} from '#/components';
+import { 
+    Login
+} from '#/components';
 
-
-class Header extends React.Component {
+class Header extends Component {
     render() {
         return (
             <ui.Menu secondary>

@@ -1,6 +1,7 @@
-import {Schema} from 'mongoose';
+import { Schema } from 'mongoose';
 
-export const postSchema = new Schema({
+
+const postSchema = new Schema({
     title: String,
     content: String,
     author: String,

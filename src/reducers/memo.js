@@ -1,8 +1,7 @@
-import * as types from '#/actions/ActionTypes';
-
 import update from 'react-addons-update';
+import { types } from '#/actions';
 
-const initialState = {
+const initState = {
     post: {
         status: 'INIT',
         error: -1
@@ -17,10 +16,10 @@ const initialState = {
 
 export default function memo(state, action) {
     if(typeof state === 'undefined'){
-        state = initialState;
+        state = initState;
     }
-
     switch(action.type){
+        // POST
         case types.MEMO_POST:
             return update(state, {
                 post: {
@@ -41,15 +40,15 @@ export default function memo(state, action) {
                     error: {$set: action.error}
                 }
             });
+
+        // GET
         case types.MEMO_GET:
-            console.log('action.reducer.memo-memoget');
             return update(state, {
                 get: {
                     status: {$set: 'WAIT'}
                 }
             });
         case types.MEMO_GET_SUCC:
-            console.log('action.reducer.memo-memogetsucc');
             return update(state, {
                 get: {
                     status: {$set: 'SUCC'},
@@ -64,6 +63,8 @@ export default function memo(state, action) {
                     error: {$set: action.error}
                 }
             });
+
+        // OTHERS
         default:
             return state;
     }

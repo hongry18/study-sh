@@ -1,27 +1,23 @@
-import React from 'react';
-
+import React, { Component } from 'react';
 import * as ui from 'semantic-ui-react';
 
-class Write extends React.Component {
+
+const initState = {
+    title: '',
+    content: '',
+}
+
+class Write extends Component {
     constructor(props){
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
-
-        // init state
-        this.state = {
-            title: '',
-            content: ''
-        }
+        this.state = initState
     }
 
     handleSubmit(){
         this.props.onPost(this.state.title, this.state.content)
             .then(()=>{
-                let initState = {
-                    title: '',
-                    content: ''
-                };
                 this.setState(initState);
             });
     }
@@ -33,6 +29,14 @@ class Write extends React.Component {
     }
 
     render(){
+        return (
+            <div>
+                {this.WriteForm()}
+            </div>
+        );
+    }
+
+    WriteForm() {
         return (
             <ui.Segment>
                 <ui.Form>

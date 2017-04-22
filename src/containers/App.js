@@ -1,10 +1,27 @@
-import React from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { 
+    requestGetStatus,
+} from '#/actions/auth';
+import { 
+    Header,
+} from '#/components';
 
-import {Header} from '#/components';
-import {requestGetStatus} from '#/actions/auth';
 
-class App extends React.Component{
+class App extends Component{
+    render() {
+        let isSignUp = /(signup)/.test(this.props.location.pathname);
+        return (
+            <div>
+                {isSignUp
+                        ? undefined
+                        : <Header isLoggedIn={this.props.status.isLoggedIn}/>
+                }
+                {this.props.children}
+            </div>
+        );
+    }
+
     componentDidMount() {
         function getCookie(name){
             let value = '; ' + document.cookie;
@@ -12,42 +29,21 @@ class App extends React.Component{
             if (parts.length == 2)
                 return parts.pop().split(';').shift();
         }
-
         let loginData = getCookie('key');
-
-        if(typeof loginData === 'undefined') return;
+        if (typeof loginData === 'undefined') return;
         loginData = JSON.parse(atob(loginData));
-        console.log('cookie:', loginData);
-
         // check login
-        console.log('check login:',loginData.isLoggedIn);
-        if(!loginData.isLoggedIn) return;
-
+        if (!loginData.isLoggedIn) return;
         this.props.requestGetStatus().then(() => {
-            if(!this.props.status.valid) {
+            if (!this.props.status.valid) {
+                // session expired
                 loginData = {
                     isLoggedIn: false,
                     username: ''
                 };
                 document.cookie='key=' + btoa(JSON.stringify(loginData));
-                console.log('session has expired');
             } 
         });
-    }
-
-    render() {
-        let re = /(signup)/;
-        let isAuth = re.test(this.props.location.pathname);
-
-        return (
-            <div>
-                {isAuth
-                ? undefined
-                : <Header isLoggedIn={this.props.status.isLoggedIn}/>
-                }
-                {this.props.children}
-            </div>
-        );
     }
 }
 
@@ -65,6 +61,4 @@ let mapDispatchToProps = (dispatch) => {
     };
 };
 
-App = connect(mapStateToProps, mapDispatchToProps)(App);
-
-export default App;
+export default connect(mapStateToProps, mapDispatchToProps)(App);

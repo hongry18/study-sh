@@ -1,7 +1,7 @@
 import axios from 'axios';
-import * as types from '#/actions/ActionTypes'; 
+import { types } from '#/actions'; 
 
-// Login //
+// LOGIN
 export function login(){
     return {
         type: types.AUTH_LOGIN
@@ -34,7 +34,7 @@ export function requestLogin(username, userpw) {
     };
 }
 
-// Logout //
+// LOGOUT
 export function logout(){
     return {
         type: types.AUTH_LOGOUT
@@ -86,7 +86,7 @@ export function requestRegister(username, userpw, email) {
     };
 }
 
-// check status //
+// GET STATUS
 export function get_status() {
     return {
         type: types.AUTH_GET_STATUS
