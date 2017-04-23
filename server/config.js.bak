@@ -1,0 +1,44 @@
+const development = {
+    'env': {
+        'port': 8080,
+        'devPort': 7777,
+        'path': ''
+    },
+    'db': {
+        'mongo': 'mongodb://localhost/blog'
+    },
+    'session': {
+        'secret': '',
+        'cookie': {
+            'maxAge': 3600000
+        },
+        'resave': false,
+        'saveUninitialized': true
+    },
+    'debug': {
+        'verbose': true
+    }
+}
+
+const production = {
+    'env': {
+        'port': 80,
+        'path': ''
+    },
+    'db': {
+        'mongo': 'mongodb://localhost/blog'
+    },
+    'session': {
+        'secret': 'foo',
+        'cookie': {
+            'maxAge': 3600000
+        },
+        'resave': false,
+        'saveUninitialized': true
+    },
+    'debug': {
+        'verbose': false
+    }
+}
+
+export default (process.env.NODE_ENV == 'production' ? production : development);
