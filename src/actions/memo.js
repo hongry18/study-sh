@@ -60,15 +60,16 @@ const memo = {
 
     requestGet(isInitial, listStyle, memoId) {
         let url = 'api/memo';
-        url += isInitial?'':`${listStyle}/${memoId}`;
-
+        if (!isInitial) {
+            url += `/${listStyle}/${memoId}`;
+        }
         return (dispatch) => {
             dispatch(this.get());
             return axios.get(url)
                 .then(res => {
                     dispatch(this.get_succ(res.data, isInitial, listStyle));
                 }).catch(error => {
-                    dispatch(this.get_fail(error.response.data.code));
+                    if(error.response) dispatch(this.get_fail(error.response.data.code));
                 });
         };
     },
@@ -80,9 +81,11 @@ const memo = {
         };
     },
 
-    put_succ() {
+    put_succ(index, savedData) {
         return {
-            type: types.MEMO_PUT_SUCC
+            type: types.MEMO_PUT_SUCC,
+            index,
+            savedData,
         };
     },
 
@@ -92,14 +95,16 @@ const memo = {
         };
     },
 
-    requestPut(id, title, content) {
+    requestPut(index, id, data) {
         return (dispatch) => {
             dispatch(this.put());
-            return axios.put('api/memo/', {id, title, content})
+            return axios.put('api/memo/'+id, data)
                 .then(res => {
-                    dispatch(this.put_succ());
+                    dispatch(this.put_succ(index, res.data));
                 }).catch(err => {
-                    dispatch(this.put_fail(err.response.data.code));
+                    if(err){
+                        dispatch(this.put_fail(err.response.data.code));
+                    }
                 });
 
         };

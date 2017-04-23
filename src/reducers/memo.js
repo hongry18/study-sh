@@ -103,6 +103,11 @@ export default function memo(state, action) {
             return update(state, {
                 put: {
                     status: {$set: 'SUCC'}
+                },
+                get: {
+                    data: {
+                        [action.index]: {$set: action.savedData}
+                    }
                 }
             });
         case types.MEMO_PUT_FAIL:

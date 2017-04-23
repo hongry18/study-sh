@@ -20,10 +20,13 @@ class MemoList extends Component {
     }
 
     mapDataToMemo(data, username){
-        return data.map(memo => 
+        return data.map((memo, i) => 
             <Memo data={memo}
                 ownership={(memo.author === username)}
                 key={memo._id}
+                index={i}
+                onPut={this.props.onPut}
+                putStatus={this.props.putStatus}
             />
         );
     }
@@ -31,12 +34,15 @@ class MemoList extends Component {
 
 MemoList.propTypes = {
     data: PropTypes.array,
-    currentUser: PropTypes.string
+    currentUser: PropTypes.string,
+    onPut: PropTypes.func,
+    putStatus: PropTypes.string,
 };
 
 MemoList.defaultProps = {
     data: [],
-    currentUser: ''
+    currentUser: '',
+    onPut: (index, id, data) => { console.log('undefined!') },
 };
 
 export default MemoList;

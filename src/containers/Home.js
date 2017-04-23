@@ -36,10 +36,40 @@ class Home extends Component{
     constructor(props){
         super(props);
         this.handlePost = this.handlePost.bind(this);
+        this.handlePut = this.handlePut.bind(this);
+        this.loadNewMemo = this.loadNewMemo.bind(this);
+    }
+
+    loadNewMemo() {
+        if (this.props.getStatus == 'WAIT'){
+            // prevent querying while waiting response
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        }
+        if (this.props.data.length == 0){
+            return this.props.requestMemoGet(true);
+        }
+        return this.props.requestMemoGet(false, 'new', this.props.data[0]._id);
     }
 
     handlePost(title, content) {
-        return this.props.requestPost(title, content);
+        return this.props.requestMemoPost(title, content)
+            .then(() => {
+                return new Promise((resolve, reject) => {
+                    if (this.props.postStatus == 'SUCC') {
+                        this.loadNewMemo();
+                        resolve();
+                    }
+                });
+            });
+    }
+
+    handlePut(index, id, data){
+        return this.props.requestMemoPut(index, id, data)
+            .then(() => {
+                //do something
+            });
     }
 
     render() {
@@ -52,16 +82,27 @@ class Home extends Component{
                 <MemoList
                     data={this.props.data}
                     currentUser={this.props.currentUser}
+                    onPut={this.handlePut}
+                    putStatus={this.props.putStatus}
                 />
             </div>
         );
     }
 
     componentDidMount(){
+        const loadNewMemoLoop = () => {
+            this.loadNewMemo().then(() => {
+                this.loopLoadNewMemoTimeout = setTimeout(loadNewMemoLoop, 5000);
+            });
+        };
         //load unconditionally
         this.props.requestMemoGet(true).then(()=>{
-            //do somthing
+            loadNewMemoLoop(); // start the loop
         });
+    }
+
+    componentWillUnmount(){
+        clearTimeout(this.loopLoadNewMemoTimeout);
     }
 }
 
@@ -69,7 +110,10 @@ let mapStateToProps = (state) => {
     return {
         isLoggedIn: state.auth.status.isLoggedIn,
         currentUser: state.auth.status.currentUser,
-        data: state.memo.get.data
+        data: state.memo.get.data,
+        getStatus: state.memo.get.status,
+        postStatus: state.memo.post.status,
+        putStatus: state.memo.put.status,
     };
 };
 
@@ -78,9 +122,12 @@ let mapDispatchToProps = (dispatch) => {
         requestMemoPost: (title, content) => {
             return dispatch(memo.requestPost(title, content));
         },
-        requestMemoGet: (isInitial) => {
-            return dispatch(memo.requestGet(isInitial));
-        }
+        requestMemoGet: (isInitial, listStyle, memoId) => {
+            return dispatch(memo.requestGet(isInitial, listStyle, memoId));
+        },
+        requestMemoPut: (index, id, data) => {
+            return dispatch(memo.requestPut(index, id, data));
+        },
     };
 };
 

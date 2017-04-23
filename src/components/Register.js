@@ -27,7 +27,9 @@ class Register extends Component {
 
     handleSubmit() {
         if (this.state.userpw !== this.state.userpw_confirm) {
-            error('pw mismatched');
+            this.setState({
+                err: '비밀번호가 일치하지 않습니다.',
+            });
             return;
         }
         this.props.requestRegister(
@@ -37,7 +39,6 @@ class Register extends Component {
         ).then(() => {
             switch(this.props.register.status) {
                 case 'SUCC': {
-                    log('register success');
                     this.setState ({
                         username: '',
                         userpw: '',
@@ -49,15 +50,11 @@ class Register extends Component {
                     return false;
                 }
                 case 'FAIL': {
-                    error('register failed');
-                    console.log(this.props.register);
                     switch(this.props.register.code){
                         case 1:
-                            log('bad name');
                             this.setState({err: 'bad name'});
                             return false;
                         case 2:
-                            log('account exists');
                             this.setState({err: 'account exist'});
                             return false;
                         default:
@@ -72,74 +69,78 @@ class Register extends Component {
 
     render() {
         return (
-            <div>
+            <ui.Segment>
+                <h1>회원가입</h1>
                 {this.RegisterForm()} 
                 {this.props.register.code != -1
                         ?this.ErrorForm()
                         :undefined
                 }
-            </div>
+            </ui.Segment>
 
         );
     }
 
     RegisterForm() {
         return (
-            <div>
-                <ui.Container>
-                    <ui.Input
-                        iconPosition="left"
-                        placeholder="ID"
-                        name="username"
-                        type="text"
-                        onChange={this.handleChange}
-                    >
-                        <ui.Icon name='user'/>
-                        <input />
-                    </ui.Input><br/>
-                    <ui.Input
-                        iconPosition="left"
-                        placeholder="Password"
-                        name="userpw"
-                        type="password"
-                        onChange={this.handleChange}
-                    >
-                        <ui.Icon name='lock'/>
-                        <input />
-                    </ui.Input><br/>
-                    <ui.Input
-                        iconPosition="left"
-                        placeholder="Password Confirm"
-                        name="userpw_confirm"
-                        type="password"
-                        onChange={this.handleChange}
-                    >
-                        <ui.Icon name='lock'/>
-                        <input />
-                    </ui.Input><br/>
-                    <ui.Input
-                        iconPosition="left"
-                        placeholder="Email"
-                        name="email"
-                        type="text"
-                        onChange={this.handleChange}
-                    >
-                        <ui.Icon name='at'/>
-                        <input />
-                    </ui.Input><br/>
-                    <ui.Button
-                        onClick={this.handleSubmit}
-                    >
-                        Submit
-                    </ui.Button>
-                </ui.Container>
-            </div>
+            <ui.Container>
+                <ui.Input
+                    fluid
+                    iconPosition="left"
+                    placeholder="ID"
+                    name="username"
+                    type="text"
+                    onChange={this.handleChange}
+                >
+                    <ui.Icon name='user'/>
+                    <input />
+                </ui.Input><br/>
+                <ui.Input
+                    fluid
+                    iconPosition="left"
+                    placeholder="Password"
+                    name="userpw"
+                    type="password"
+                    onChange={this.handleChange}
+                >
+                    <ui.Icon name='lock'/>
+                    <input />
+                </ui.Input><br/>
+                <ui.Input
+                    fluid
+                    iconPosition="left"
+                    placeholder="Password Confirm"
+                    name="userpw_confirm"
+                    type="password"
+                    onChange={this.handleChange}
+                >
+                    <ui.Icon name='lock'/>
+                    <input />
+                </ui.Input><br/>
+                <ui.Input
+                    fluid
+                    iconPosition="left"
+                    placeholder="Email"
+                    name="email"
+                    type="text"
+                    onChange={this.handleChange}
+                >
+                    <ui.Icon name='at'/>
+                    <input />
+                </ui.Input><br/>
+                <ui.Button
+                    fluid
+                    onClick={this.handleSubmit}
+                >
+                    Submit
+                </ui.Button>
+            </ui.Container>
         );
     }
 
     ErrorForm() {
         return (
-            <ui.Label>{this.state.err}</ui.Label>
+            <p>{this.state.err}</p>
         );
     }
 }

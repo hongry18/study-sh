@@ -10,6 +10,7 @@ class Memo extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handlePut = this.handlePut.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.toggleModify = this.toggleModify.bind(this);
         this.state = {
             isModifying: false,
             title: '',
@@ -23,35 +24,86 @@ class Memo extends Component {
         this.setState(newState);
     }
 
-    handlePut(title, content) {
-        return this.props.requestPut(title, content);
+    toggleModify() {
+        if (this.state.isModifying) {
+            this.setState({
+                isModifying: false,
+            });
+        } else {
+            this.setState({ 
+                isModifying: true ,
+                title: this.props.data.title,
+                content: this.props.data.content,
+            });
+        }
+    }
+
+    handlePut(){
+        let newData = {
+            title: this.state.title,
+            content: this.state.content
+        }
+        this.props.onPut(this.props.index, this.props.data._id, newData)
+            .then(() => {
+                if (this.props.putStatus == 'SUCC') {
+                    this.toggleModify();
+                }
+            })
+        ;
     }
 
     handleDelete(id) {
-        return this.props.requestDelete(id);
+        // return this.props.requestDelete(id);
     }
 
     render() {
         return (
-            <div>
-                {this.MemoForm(this.props.data, this.props.ownership)}
+            <div className="memo-wrapper">
+                {this.state.isModifying
+                    ? this.ModifyForm()
+                    : this.MemoForm(this.props.data, this.props.ownership)
+                }
             </div>
         );
     }
 
     MemoForm(data, isOwner) {
         return (
-            <div>
             <ui.Segment>
-                <ui.Label><ui.Icon name='user' />{data.author}</ui.Label>
+                <ui.Label><ui.Icon name="user" />{data.author}</ui.Label>
                 <TimeAgo date={data.date}/>
                 <h1>{data.title}</h1> 
                 <p>{data.content}</p>
                 {isOwner?this.PostMenu():undefined}
             </ui.Segment>
-            </div>
         );
     };
+
+    ModifyForm() {
+        return (
+                <ui.Segment>
+                    <ui.Form>
+                        <ui.Input
+                            fluid
+                        >
+                            <input
+                                name="title"
+                                value={this.state.title}
+                                onChange={this.handleChange}
+                            />
+                        </ui.Input> 
+                        <ui.TextArea
+                            name="content"
+                            value={this.state.content}
+                            onChange={this.handleChange}
+                        />
+                    </ui.Form>
+                    <ui.Button fluid 
+                        onClick={this.handlePut}
+                    >Modify</ui.Button>
+                </ui.Segment>
+        );
+    }
 
     PostMenu() {
         return (
@@ -60,6 +112,7 @@ class Memo extends Component {
                     circular icon 
                     size='mini'
                     color='blue'
+                    onClick={this.toggleModify}
                 >
                     <ui.Icon name='write' />
                 </ui.Button>
@@ -76,11 +129,15 @@ class Memo extends Component {
 }
 
 Memo.propTypes = {
+    index: PropTypes.number,
     data: PropTypes.object,
-    ownership: PropTypes.bool
+    ownership: PropTypes.bool,
+    onPut: PropTypes.func,
+    putStatus: PropTypes.string,
 };
 
 Memo.defaultProps = {
+    index: -1,
     data: {
         _id: 'id1234567890',
         author: 'Writer',
@@ -88,7 +145,9 @@ Memo.defaultProps = {
         content: 'Contents',
         date: new Date(),
     },
-    ownership: true
+    ownership: false,
+    onPut: (index, id, data) => { console.log('undefined!') },
+    putStatus: 'INIT',
 }
 
 export default Memo;

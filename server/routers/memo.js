@@ -45,7 +45,8 @@ router.put('/:id', (req, res) => {
             code: 2
         });
     }
-    Post.findById(req.params.id, (err, doc) => {
+    let objId = new mongoose.Types.ObjectId(req.params.id);
+    Post.findById(objId, (err, doc) => {
         if(err) throw err;
         // check existence
         if(!doc) {
@@ -55,7 +56,7 @@ router.put('/:id', (req, res) => {
             });
         }
         // check permission
-        if(doc.writer !== req.session.loginInfo.username){
+        if(doc.author !== req.session.loginInfo.username){
             return res.status(404).json({
                 error: 'NOT PERMITTED',
                 code: 4
@@ -63,13 +64,10 @@ router.put('/:id', (req, res) => {
         }
         doc.title = req.body.title;
         doc.content = req.body.content;
-        doc.date = new Date();
+        // doc.date = new Date(); // fix dates
         doc.save((err, memo) => {
             if(err) throw err;
-            return res.json({
-                success: true,
-                memo
-            });
+            return res.send(memo);
         });
     });
 });
@@ -120,12 +118,17 @@ router.get('/', (req, res) => {
         .sort({_id: -1})
         .limit(6)
         .exec((err, posts) => {
-            if(err) throw err;
+            if(err) {
+                res.status(400).json({
+                    error: 'server failed',
+                    code: 1
+                });
+                throw err;
+            }
             res.json(posts);
         });
 });
 
-// GET POST LIST
 router.get('/:listStyle/:id', (req, res) => {
     let listStyle = req.params.listStyle;
     let reqId = req.params.id;
