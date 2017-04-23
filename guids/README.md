@@ -3,6 +3,7 @@
 ---
 * [react perfomance 설치](react-addons-perf.md)
 * [webpack image loader](webpack-image-loader.md)
+* [webpack@2](webpack2_introduction.md)
 * [바벨 컴파일시 루트디렉토리 지정 플러그인](babel-plugin-root-import.md)
 * [nginx로 클러스터링](nginx-nodejs-cluster.md)
 ---
