@@ -74,6 +74,7 @@ router.put('/:id', (req, res) => {
 
 // DELETE POST BY ID
 router.delete('/:id', (req, res) => {
+    let objId = new mongoose.Types.ObjectId(req.params.id);
     // validation
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
         return res.status(400).json({
@@ -88,7 +89,7 @@ router.delete('/:id', (req, res) => {
             code: 2
         });
     }
-    Post.findById(req.params.id, (err, doc) => {
+    Post.findById(objId, (err, doc) => {
         if(err) throw err;
         // check existence
         if(!doc) {
@@ -98,16 +99,18 @@ router.delete('/:id', (req, res) => {
             });
         }
         // check permission
-        if(doc.writer !== req.session.loginInfo.username){
+        if(doc.author !== req.session.loginInfo.username){
             return res.status(404).json({
                 error: 'NOT PERMITTED',
                 code: 4
             });
         }
         // remove
-        Post.remove({_id: req.params.id}, err => {
+        Post.remove({_id: objId}, err => {
             if(err) throw err;
-            return res.json({success: true});
+            return res.json({
+                success: true,
+            });
         });
     });
 });

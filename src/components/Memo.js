@@ -52,8 +52,12 @@ class Memo extends Component {
         ;
     }
 
-    handleDelete(id) {
-        // return this.props.requestDelete(id);
+    handleDelete() {
+        this.props.onDelete(this.props.index, this.props.data._id)
+            .then(() => {
+                // do sth
+            })
+        ;
     }
 
     render() {
@@ -119,6 +123,7 @@ class Memo extends Component {
                 <ui.Button circular icon 
                     size='mini' 
                     color='red'
+                    onClick={this.handleDelete}
                 >
                     <ui.Icon name='delete' />
                 </ui.Button>
@@ -132,8 +137,10 @@ Memo.propTypes = {
     index: PropTypes.number,
     data: PropTypes.object,
     ownership: PropTypes.bool,
-    onPut: PropTypes.func,
     putStatus: PropTypes.string,
+    deleteStatus: PropTypes.string,
+    onPut: PropTypes.func,
+    onDelete: PropTypes.func,
 };
 
 Memo.defaultProps = {
@@ -146,8 +153,10 @@ Memo.defaultProps = {
         date: new Date(),
     },
     ownership: false,
-    onPut: (index, id, data) => { console.log('undefined!') },
     putStatus: 'INIT',
+    deleteStatus: 'INIT',
+    onPut: (index, id, data) => { console.log('undefined!') },
+    onDelete: (index, id) => { console.log('undefined!') },
 }
 
 export default Memo;

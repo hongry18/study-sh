@@ -26,7 +26,9 @@ class MemoList extends Component {
                 key={memo._id}
                 index={i}
                 onPut={this.props.onPut}
+                onDelete={this.props.onDelete}
                 putStatus={this.props.putStatus}
+                deleteStatus={this.props.deleteStatus}
             />
         );
     }
@@ -36,13 +38,18 @@ MemoList.propTypes = {
     data: PropTypes.array,
     currentUser: PropTypes.string,
     onPut: PropTypes.func,
+    onDelete: PropTypes.func,
     putStatus: PropTypes.string,
+    deleteStatus: PropTypes.string,
 };
 
 MemoList.defaultProps = {
     data: [],
     currentUser: '',
     onPut: (index, id, data) => { console.log('undefined!') },
+    onDelte: (index, id) => { console.log('undefined!') },
+    putStatus: 'INIT',
+    deleteStatus: 'INIT',
 };
 
 export default MemoList;

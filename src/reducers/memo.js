@@ -129,7 +129,10 @@ export default function memo(state, action) {
             return update(state, {
                 delete: {
                     status: {$set: 'SUCC'}
-                }
+                },
+                get: {
+                    data: {$splice: [[action.index,1]]}
+                },
             });
         case types.MEMO_DELETE_FAIL:
             return update(state, {

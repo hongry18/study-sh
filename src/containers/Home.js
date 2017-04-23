@@ -37,6 +37,7 @@ class Home extends Component{
         super(props);
         this.handlePost = this.handlePost.bind(this);
         this.handlePut = this.handlePut.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.loadNewMemo = this.loadNewMemo.bind(this);
     }
 
@@ -69,7 +70,16 @@ class Home extends Component{
         return this.props.requestMemoPut(index, id, data)
             .then(() => {
                 //do something
-            });
+            })
+        ;
+    }
+
+    handleDelete(index, id){
+        return this.props.requestMemoDelete(index, id)
+            .then(() => {
+                //do something
+            })
+        ;
     }
 
     render() {
@@ -83,7 +93,9 @@ class Home extends Component{
                     data={this.props.data}
                     currentUser={this.props.currentUser}
                     onPut={this.handlePut}
+                    onDelete={this.handleDelete}
                     putStatus={this.props.putStatus}
+                    deleteStatus={this.props.deleteStatus}
                 />
             </div>
         );
@@ -114,6 +126,7 @@ let mapStateToProps = (state) => {
         getStatus: state.memo.get.status,
         postStatus: state.memo.post.status,
         putStatus: state.memo.put.status,
+        deleteStatus: state.memo.delete.status,
     };
 };
 
@@ -127,6 +140,9 @@ let mapDispatchToProps = (dispatch) => {
         },
         requestMemoPut: (index, id, data) => {
             return dispatch(memo.requestPut(index, id, data));
+        },
+        requestMemoDelete: (index, id) => {
+            return dispatch(memo.requestDelete(index, id));
         },
     };
 };

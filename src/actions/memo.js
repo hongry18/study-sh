@@ -117,9 +117,10 @@ const memo = {
         };
     },
 
-    delete_succ() {
+    delete_succ(index) {
         return {
-            type: types.MEMO_DELETE_SUCC
+            type: types.MEMO_DELETE_SUCC,
+            index,
         };
     },
 
@@ -129,12 +130,12 @@ const memo = {
         };
     },
 
-    requestDelete(id) {
+    requestDelete(index, id) {
         return (dispatch) => {
             dispatch(this.delete());
             return axios.delete('api/memo/'+id)
                 .then(res => {
-                    dispatch(this.delete_succ());
+                    dispatch(this.delete_succ(index));
                 }).catch(err => {
                     dispatch(this.delete_fail(err.response.code));
                 });
