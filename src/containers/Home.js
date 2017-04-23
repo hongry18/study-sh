@@ -38,10 +38,14 @@ class Home extends Component{
         this.handlePost = this.handlePost.bind(this);
         this.handlePut = this.handlePut.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleScroll = this.handleScroll.bind(this);
         this.loadNewMemo = this.loadNewMemo.bind(this);
+        this.state = {
+            isLoading: false,
+        };
     }
 
-    loadNewMemo() {
+    loadNewMemo(){
         if (this.props.getStatus == 'WAIT'){
             // prevent querying while waiting response
             return new Promise((resolve, reject) => {
@@ -52,6 +56,17 @@ class Home extends Component{
             return this.props.requestMemoGet(true);
         }
         return this.props.requestMemoGet(false, 'new', this.props.data[0]._id);
+    }
+
+    loadOldMemo(){
+        if (this.props.isLast){
+            // prevent querying while waiting response
+            return new Promise((resolve, reject) => {
+                resolve();
+            });
+        }
+        let lastIndex = this.props.data.length - 1;
+        return this.props.requestMemoGet(false, 'old', this.props.data[lastIndex]._id);
     }
 
     handlePost(title, content) {
@@ -82,6 +97,26 @@ class Home extends Component{
         ;
     }
 
+    handleScroll(){
+        $(window).scroll( () => {
+            if ($(document).height() - $(window).height()
+                - $(window).scrollTop() < 250){
+                if (!this.state.isLoading){
+                    this.setState({
+                        isLoading: true,
+                    });
+                }
+                this.loadOldMemo();
+            } else {
+                if (this.state.isLoading){
+                    this.setState({
+                        isLoading: false,
+                    });
+                }
+            }
+        });
+    }
+
     render() {
         return (
             <div>
@@ -102,6 +137,18 @@ class Home extends Component{
     }
 
     componentDidMount(){
+        const loadUntilScrollable = () => {
+            if ($("body").height() < $(window).height()){
+                this.loadOldMemo().then(() => {
+                    if (!this.props.isLast){
+                        loadUntilScrollable();
+                    }
+                });
+            }
+            else {
+                return;
+            }
+        }
         const loadNewMemoLoop = () => {
             this.loadNewMemo().then(() => {
                 this.loopLoadNewMemoTimeout = setTimeout(loadNewMemoLoop, 5000);
@@ -110,11 +157,14 @@ class Home extends Component{
         //load unconditionally
         this.props.requestMemoGet(true).then(()=>{
             loadNewMemoLoop(); // start the loop
+            loadUntilScrollable(); // error when if not load any post
         });
+        this.handleScroll();
     }
 
     componentWillUnmount(){
         clearTimeout(this.loopLoadNewMemoTimeout);
+        $(window).unbind();
     }
 }
 
@@ -127,6 +177,7 @@ let mapStateToProps = (state) => {
         postStatus: state.memo.post.status,
         putStatus: state.memo.put.status,
         deleteStatus: state.memo.delete.status,
+        isLast: state.memo.get.isLast,
     };
 };
 
