@@ -3,13 +3,6 @@
 ## 참고자료
 [Concepts](https://webpack.js.org/concepts/)
 
-## 웹팩이란
-> webpack is a module bundler for modern JavaScript applications. 
-웹팩은 최신 자바스크립트 애플리케이션을 위한 모듈 번들러입니다.
-
-## 왜 쓰나요?
-웹팩은 의존적인 하나 이상의 js 파일들을 묶어서 하나의 js파일로 만들어주는 번들링 도구입니다. 번들링을 통해 웹 서비스가 호스팅될 때 발생하는 요청의 수를 최소화하고 최적화된 (uglify, minify된) js파일을 통해 트래픽을 줄입니다.
-
 ## 설치
 `$ npm install -g webpack`
 
