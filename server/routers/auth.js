@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import * as models from '~/models'; 
+import { auth as codes } from '~/routers/errors';
 
 
 const router = express.Router();
@@ -11,25 +12,27 @@ const emailRegEx = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+")
 
 router.post('/signup', (req, res) => {
     if(!usernameRegEx.test(req.body.username)) {
-        return res.status(401).json({
-            error: 'BAD USERNAME',
-            code: 1
+        return res.status(400).json({
+            code: codes.signup.BAD_USERNAME
         });
     }
     if(!emailRegEx.test(req.body.email)) {
-        return res.status(401).json({
-            error: 'BAD EMAIL',
-            code: 1
+        return res.status(400).json({
+            code: codes.signup.BAD_EMAIL
         });
     }
     User.findOne({username: req.body.username}, (err, exist) => {
         if(exist) {
-            return res.status(401).json({
-                error: 'ACCOUNT EXIST',
-                code: 2
+            return res.status(403).json({
+                code: codes.signup.EXIST_USERNAME
             });
         }
-        if(err) throw err;
+        if(err) {
+            res.status(500).json({
+                code: codes.signup.SERVER_FAILED
+            });
+            throw err;
+        }
         //create user
         let newUser = new User({
             username: req.body.username,
@@ -38,7 +41,12 @@ router.post('/signup', (req, res) => {
         });
         newUser.userpw = newUser.generateHash(newUser.userpw);
         newUser.save( err => {
-            if(err) throw err;
+            if(err) {
+                res.status(500).json({
+                    code: codes.signup.SERVER_FAILED,
+                });
+                throw err;
+            }
             return res.json({success: true});
         });
     });
@@ -47,25 +55,27 @@ router.post('/signup', (req, res) => {
 router.post('/login', (req, res) => {
     // validate username
     if (! usernameRegEx.test(req.body.username)) {
-        return res.status(401).json({
-            error: 'BAD USERNAME',
-            code: 1
+        res.status(400).json({
+            code: codes.login.BAD_USERNAME,
         });
     }
     User.findOne({username: req.body.username}, (err, user) => {
-        if (err) throw err;
+        if (err) {
+            res.status(500).json({
+                code: codes.login.SERVER_FAILED,
+            });
+            throw err;
+        }
         if (!user) {
             //if username not exist
-            return res.status(401).json({
-                error: 'LOGIN FAILED',
-                code: 2
+            return res.status(404).json({
+                code: codes.login.NOT_FOUND
             });
         }
         if (!user.validateHash(req.body.userpw)) { 
             //if userpw is not correct
             return res.status(401).json({
-                error: 'LOGIN FAILED',
-                code: 2
+                code: codes.login.BAD_USERNAME,
             });
         }
         // update session loginInfo
@@ -83,7 +93,7 @@ router.post('/login', (req, res) => {
 router.get('/status', (req, res) => {
     if(typeof req.session.loginInfo === 'undefined') {
         return res.status(401).json({
-            error: 1
+            code: codes.status.SESSION_EXPIRED,
         });
     }
     res.json({
@@ -94,6 +104,9 @@ router.get('/status', (req, res) => {
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if(err){
+            res.status(500).json({
+                code: codes.status.SERVER_FAILED,
+            });
             throw err;
         }
     });
