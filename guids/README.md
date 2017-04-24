@@ -16,3 +16,4 @@
 * [React 컴포넌트 템플릿 (redux 연결)](react_component_template.md)
 ---
 * [간단한 MongoDB 명령어](mongodb.cheatsheet.md)
+* [mongoDB 보안설정](mongoDB.secure.guid.md)
