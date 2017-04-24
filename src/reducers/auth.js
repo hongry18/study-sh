@@ -4,10 +4,12 @@ import { types } from '#/actions';
 
 const initState = {
     login: {
-        status: 'INIT'
+        status: 'INIT',
+        code: -1,
     },
     register: {
-        status: 'INIT'
+        status: 'INIT',
+        code: -1,
     },
     status: {
         valid: false,
@@ -26,33 +28,36 @@ export default function auth(state, action) {
         case types.AUTH_LOGIN:
             return update(state, {
                 login: {
-                    status: {$set: 'WAIT'}
+                    status: {$set: 'WAIT'},
                 }
             });
         case types.AUTH_LOGIN_SUCC:
             return update(state, {
                 login: {
                     status: {$set: 'SUCC'},
+                    code: {$set: 0},
                 },
                 status: {
                     isLoggedIn: {$set: true},
-                    currentUser: {$set: action.username}
+                    currentUser: {$set: action.username},
                 }
             });
         case types.AUTH_LOGIN_FAIL:
             return update(state, {
                 login: {
-                    status: {$set: 'FAIL'}
+                    status: {$set: 'FAIL'},
+                    code: {$set: action.code},
                 }
             });
         case types.AUTH_LOGOUT:
             return update(state, {
                 login: {
-                    status: {$set: 'INIT'}
+                    status: {$set: 'INIT'},
+                    code: {$set: 0},
                 },
                 status: {
                     isLoggedIn: {$set: false},
-                    currentUser: {$set: ''}
+                    currentUser: {$set: ''},
                 }
             });
 
@@ -60,13 +65,14 @@ export default function auth(state, action) {
         case types.AUTH_REGISTER:
             return update(state, {
                 register: {
-                    status: {$set: 'WAIT'}
+                    status: {$set: 'WAIT'},
                 }
             });
         case types.AUTH_REGISTER_SUCC:
             return update(state, {
                 register: {
-                    status: {$set: 'SUCC'}
+                    status: {$set: 'SUCC'},
+                    code: {$set: 0},
                 }
             });
         case types.AUTH_REGISTER_FAIL:

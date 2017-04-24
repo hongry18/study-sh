@@ -77,16 +77,22 @@ class Login extends Component {
     LoginForm()  { //isLoggedIn = false
         return (
             <div>
-                <ui.Input 
-                    iconPosition="left"
-                    placeholder="ID"
-                    name="username"
-                    type="text"
-                    value={this.state.username}
-                    onChange={this.handleChange}>
-                    <ui.Icon name='user'/>
-                    <input />
-                </ui.Input>
+                <ui.Popup inverted
+                    trigger={
+                        <ui.Input 
+                            iconPosition="left"
+                            placeholder="ID"
+                            name="username"
+                            type="text"
+                            value={this.state.username}
+                            onChange={this.handleChange}>
+                            <ui.Icon name='user'/>
+                            <input />
+                        </ui.Input>
+                    }
+                    open={this.props.errorCode>0}
+                    content="아이디 혹은 비밀번호가 잘못되었습니다"
+                />
                 <ui.Input 
                     iconPosition="left"
                     placeholder="Password"
@@ -116,7 +122,8 @@ class Login extends Component {
 let mapStateToProps = (state) => {
     return {
         login: state.auth.login,
-        status: state.auth.status
+        status: state.auth.status,
+        errorCode: state.auth.login.code,
     };
 };
 

@@ -6,20 +6,21 @@ const auth = {
     // LOGIN
     login() {
         return {
-            type: types.AUTH_LOGIN
+            type: types.AUTH_LOGIN,
         };
     },
 
     login_succ(username){
         return {
             type: types.AUTH_LOGIN_SUCC,
-            username
+            username,
         };
     },
 
-    login_fail(){
+    login_fail(code){
         return {
-            type: types.AUTH_LOGIN_FAIL
+            type: types.AUTH_LOGIN_FAIL,
+            code,
         };
     },
 
@@ -30,7 +31,7 @@ const auth = {
                 .then(res => {
                     dispatch(this.login_succ(username));
                 }).catch(err => {
-                    dispatch(this.login_fail());
+                    dispatch(this.login_fail(err.response.data.code));
                 });
         };
     },
@@ -38,19 +39,31 @@ const auth = {
     // LOGOUT
     logout(){
         return {
-            type: types.AUTH_LOGOUT
+            type: types.AUTH_LOGOUT,
+        };
+    },
+    logout_succ(){
+        return {
+            type: types.AUTH_LOGOUT_SUCC,
+        };
+    },
+
+    logout_fail(code){
+        return {
+            type: types.AUTH_LOGOUT_FAIL,
+            code,
         };
     },
 
     requestLogout() {
         return (dispatch) => {
+            dispatch(this.logout());
             return axios.get('api/auth/logout')
                 .then(res => {
-                    if(res.data.success) {
-                        dispatch(this.logout());
-                    }
+                    dispatch(this.logout_succ());
                 }).catch(err => {
-                    //@todo err handling
+                    // response?
+                    if(err.response) dispatch(this.logout_fail(err.response.data.code));
                 });
         };
     },
@@ -58,20 +71,20 @@ const auth = {
     // REGISTER
     register() {
         return {
-            type: types.AUTH_REGISTER
+            type: types.AUTH_REGISTER,
         };
     },
 
     register_succ() {
         return {
-            type: types.AUTH_REGISTER_SUCC
+            type: types.AUTH_REGISTER_SUCC,
         };
     },
 
     register_fail(code) {
         return {
             type: types.AUTH_REGISTER_FAIL,
-            code
+            code,
         };
     },
 
@@ -90,20 +103,21 @@ const auth = {
     // GET STATUS
     get_status() {
         return {
-            type: types.AUTH_GET_STATUS
+            type: types.AUTH_GET_STATUS,
         };
     },
 
     get_status_succ(username) {
         return {
             type: types.AUTH_GET_STATUS_SUCC,
-            username
+            username,
         };
     },
 
-    get_status_fail() {
+    get_status_fail(code) {
         return {
-            type: types.AUTH_GET_STATUS_FAIL
+            type: types.AUTH_GET_STATUS_FAIL,
+            code,
         };
     },
 
@@ -114,7 +128,7 @@ const auth = {
                 .then(res => {
                     dispatch(this.get_status_succ(res.data.info.username));
                 }).catch(err => {
-                    dispatch(this.get_status_fail());
+                    dispatch(this.get_status_fail(err.response.data.code));
                 });
         };
     }
